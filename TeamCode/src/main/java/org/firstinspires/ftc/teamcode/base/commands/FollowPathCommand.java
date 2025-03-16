@@ -6,12 +6,14 @@ import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.pathgen.Path;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 
 public class FollowPathCommand extends CommandBase {
     private final Follower follower;
     private final PathChain path;
     private boolean holdEnd = true;
-    private double maxPower = .9;
+    private double maxPower = 1;
     private double completionThreshold = 0.99;
 
     public FollowPathCommand(Follower follower, PathChain pathChain) {

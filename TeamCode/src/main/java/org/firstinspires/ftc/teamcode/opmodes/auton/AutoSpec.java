@@ -35,55 +35,55 @@ import java.util.ArrayList;
 
 @Autonomous(name="5+0",group = ".Auton")
 public class AutoSpec extends OpMode {
-    static Pose grab = new Pose(4.75, -33, Math.toRadians(0));
+    static Pose grab = new Pose(4.75, -33, Math.toRadians(180));
     static int scoreX = 34;
     public enum AutoPaths {
         PRELOAD(
-                new Pose(0, 0, Math.toRadians(180)),
-                new Pose(scoreX, 6, Math.toRadians(180))
+                new Pose(0, 0, Math.toRadians(0)),
+                new Pose(scoreX, 6, Math.toRadians(0))
         ),
 
         GO_TO_SAMPLES(
-                new Pose(38,  0, Math.toRadians(180)),
-                new Pose(15, 0, Math.toRadians(180)),
-                new Pose(15, -30, Math.toRadians(0)),
-                new Pose(45, -30, Math.toRadians(0)),
-                new Pose(45, -47, Math.toRadians(0))
+                new Pose(38,  0, Math.toRadians(0)),
+                new Pose(15, 0, Math.toRadians(0)),
+                new Pose(15, -30, Math.toRadians(180)),
+                new Pose(45, -30, Math.toRadians(180)),
+                new Pose(45, -47, Math.toRadians(180))
         ),
 
         PUSH_SAMPLE_1(
-                new Pose(45, -47, Math.toRadians(0)),
-                new Pose(10, -47, Math.toRadians(0))
+                new Pose(45, -47, Math.toRadians(180)),
+                new Pose(10, -47, Math.toRadians(180))
         ),
 
         PUSH_SAMPLE_2(
-                new Pose(10, -47, Math.toRadians(0)),
-                new Pose(45, -47, Math.toRadians(0)),
-                new Pose(45, -58, Math.toRadians(0)),
-                new Pose(10, -58, Math.toRadians(0))
+                new Pose(10, -47, Math.toRadians(180)),
+                new Pose(45, -47, Math.toRadians(180)),
+                new Pose(45, -58, Math.toRadians(180)),
+                new Pose(10, -58, Math.toRadians(180))
         ),
 
         PUSH_SAMPLE_3(
-                new Pose(10, -58, Math.toRadians(0)),
-                new Pose(45, -58, Math.toRadians(0)),
-                new Pose(45, -64, Math.toRadians(0)),
-                new Pose(10, -64, Math.toRadians(0))
+                new Pose(10, -58, Math.toRadians(180)),
+                new Pose(45, -58, Math.toRadians(180)),
+                new Pose(45, -64, Math.toRadians(180)),
+                new Pose(10, -64, Math.toRadians(180))
         ),
 
         GRAB_SPECIMEN_1(
-                new Pose(10, -64, Math.toRadians(0)),
-                new Pose(20, grab.getY()-10, Math.toRadians(0)),
+                new Pose(10, -64, Math.toRadians(180)),
+                new Pose(20, grab.getY()-10, Math.toRadians(180)),
                 new Pose(grab.getX() - 1, grab.getY() - 2.7, grab.getHeading())
         ),
 
         SCORE_SPECIMEN_1(
                 new Pose(grab.getX() - 1, grab.getY() - 2.7, grab.getHeading()),
-                new Pose(scoreX, 4, Math.toRadians(0))
+                new Pose(scoreX, 4, Math.toRadians(180))
         ),
 
         GRAB_SPECIMEN_2(
-                new Pose(36, 4, Math.toRadians(0)),
-                new Pose(20, -33, Math.toRadians(0)),
+                new Pose(36, 4, Math.toRadians(180)),
+                new Pose(20, -33, Math.toRadians(180)),
                 grab
         ),
 

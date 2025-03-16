@@ -1,52 +1,60 @@
-//package org.firstinspires.ftc.teamcode.opmodes.teleop;
-//
-//import com.arcrobotics.ftclib.command.CommandOpMode;
-//import com.arcrobotics.ftclib.command.button.GamepadButton;
-//import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-//import org.firstinspires.ftc.teamcode.base.bot.Actions;
-//import org.firstinspires.ftc.teamcode.base.bot.Robot;
-//
-//@TeleOp(name="Duo",group=".TeleOp")
-//public class Duo extends CommandOpMode {
-//    public Robot bot;
-//    public Duo(Robot bot) {
-//        this.bot = bot;
-//    }
-//
-//    @Override
-//    public void initialize() {
-//        bot = new Robot(Robot.Mode.DUO, hardwareMap);
-//
-//        // DRIVER CONTROLS
-//        new GamepadButton(bot.base, GamepadKeys.Button.A)
-//                .whenPressed(Actions.SpecimenGrabAction(bot));
-//
-//        new GamepadButton(bot.base, GamepadKeys.Button.B)
-//                .whenPressed(Actions.SpecimenScoreAction(bot));
-//
-//        new GamepadButton(bot.base, GamepadKeys.Button.DPAD_DOWN)
-//                .whenPressed(Actions.ResetAction(bot));
-//
-//        // OPERATOR CONTROLS
-//        new GamepadButton(bot.op, GamepadKeys.Button.RIGHT_BUMPER)
-//                .whenPressed(Actions.IntakeAction(bot, true))
-//                .whenReleased(Actions.IntakeRestAction(bot));
-//
-//        new GamepadButton(bot.op, GamepadKeys.Button.LEFT_BUMPER)
-//                .whenPressed(Actions.IntakeAction(bot, false))
-//                .whenReleased(Actions.IntakeRestAction(bot));
-//
-//        new GamepadButton(bot.op, GamepadKeys.Button.A)
-//                .whenPressed(Actions.SubmersibleIntakeAction(bot));
-//
-//        new GamepadButton(bot.op, GamepadKeys.Button.B)
-//                .whenPressed(Actions.TransferAction(bot));
-//
-//        new GamepadButton(bot.op, GamepadKeys.Button.Y)
-//                .whenPressed(Actions.HighBasketAction(bot));
-//
-//        new GamepadButton(bot.op, GamepadKeys.Button.X)
-//                .whenPressed(Actions.ReleaseAction(bot));
-//    }
-//}
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
+
+import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.teamcode.base.bot.Robot;
+
+@TeleOp(name="Duo", group=".TeleOp")
+public class Duo extends CommandOpMode {
+    public static Robot tanveerBot;
+    @Override
+    public void initialize() {
+        tanveerBot = new Robot(Robot.Mode.DUO, gamepad1, gamepad2, hardwareMap);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.A,
+                tanveerBot.SpecimenGrab(),
+                null);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.B,
+                tanveerBot.SpecimenScore(),
+                null);
+
+        tanveerBot.Action(tanveerBot.op,
+                GamepadKeys.Button.DPAD_DOWN,
+                tanveerBot.Reset(),
+                null);
+
+        tanveerBot.Action(tanveerBot.op,
+                GamepadKeys.Button.RIGHT_BUMPER,
+                tanveerBot.Intake(true),
+                tanveerBot.Intake(null));
+
+        tanveerBot.Action(tanveerBot.op,
+                GamepadKeys.Button.LEFT_BUMPER,
+                tanveerBot.Intake(false),
+                tanveerBot.Intake(null));
+
+        tanveerBot.Action(tanveerBot.op,
+                GamepadKeys.Button.A,
+                tanveerBot.SubmersibleIntake(),
+                null);
+
+        tanveerBot.Action(tanveerBot.op,
+                GamepadKeys.Button.B,
+                tanveerBot.Transfer(),
+                null);
+
+        tanveerBot.Action(tanveerBot.op,
+                GamepadKeys.Button.Y,
+                tanveerBot.HighBasketPos(),
+                null);
+
+        tanveerBot.Action(tanveerBot.op,
+                GamepadKeys.Button.X,
+                tanveerBot.ClawRelease(),
+                null);
+    }
+}

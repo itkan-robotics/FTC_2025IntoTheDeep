@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes.auton;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.pedropathing.follower.Follower;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.base.bot.Robot;
 import org.firstinspires.ftc.teamcode.base.subsystems.FollowerSubsystem;
-import org.firstinspires.ftc.teamcode.opmodes.teleop.Solo;
-import org.firstinspires.ftc.teamcode.opmodes.teleop.Solo2;
 
 import java.util.ArrayList;
 
@@ -16,19 +14,64 @@ import java.util.ArrayList;
 public class PoseFinder extends OpMode {
     private ArrayList<Pose> poses;
     private boolean previousLeftBumper = false;
-    private Solo2 solo;
+    private Robot tanveerBot;
 
     @Override
     public void init() {
-        solo = new Solo2();
-        solo.initialize();
+        tanveerBot = new Robot(Robot.Mode.SOLO, gamepad1, null, hardwareMap);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.DPAD_LEFT,
+                tanveerBot.SpecimenGrab(),
+                null);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.DPAD_RIGHT,
+                tanveerBot.SpecimenScoreReverse(),
+                null);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.DPAD_DOWN,
+                tanveerBot.Reset(),
+                null);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.DPAD_UP,
+                tanveerBot.SpecimenScore(),
+                null);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.RIGHT_BUMPER,
+                tanveerBot.Intake(true),
+                tanveerBot.Intake(null));
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.A,
+                tanveerBot.SubmersibleIntake(),
+                null);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.B,
+                tanveerBot.Transfer(),
+                null);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.Y,
+                tanveerBot.HighBasketPos(),
+                null);
+
+        tanveerBot.Action(tanveerBot.base,
+                GamepadKeys.Button.X,
+                tanveerBot.ClawRelease(),
+                null);
         poses = new ArrayList<>();
     }
 
     @Override
     public void loop() {
         CommandScheduler.getInstance().run();
-        FollowerSubsystem follower = solo.tanveerBot.follower;
+        FollowerSubsystem follower = tanveerBot.follower;
+        follower.getFollower().update();
 
         if (follower != null) {
             Pose currentPose = follower.getFollower().getPose();

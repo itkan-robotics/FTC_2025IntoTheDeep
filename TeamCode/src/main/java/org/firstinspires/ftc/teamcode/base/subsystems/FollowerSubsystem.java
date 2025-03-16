@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.base.subsystems;
 
-import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.util.Constants;
@@ -11,7 +10,7 @@ import org.firstinspires.ftc.teamcode.tuning.Pedro.constants.LConstants;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
-public class FollowerSubsystem extends CommandBase {
+public class FollowerSubsystem extends SubsystemBase {
     private final Follower follower;
     private final Pose start;
 
@@ -34,23 +33,13 @@ public class FollowerSubsystem extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-        follower.setPose(start);
-    }
-
-    public void execute() {
-        follower.update();
-        CommandScheduler.getInstance().run();
-
-        telemetry.addData("X", follower.getPose().getX());
-        telemetry.addData("Y", follower.getPose().getY());
-        telemetry.addData("Heading", follower.getPose().getHeading());
-        telemetry.addData("Busy", follower.isBusy());
-        telemetry.update();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return !follower.isBusy();
+    public void periodic() {
+//        follower.update();
+//
+//        telemetry.addData("X", follower.getPose().getX());
+//        telemetry.addData("Y", follower.getPose().getY());
+//        telemetry.addData("Heading", follower.getPose().getHeading());
+//        telemetry.addData("Busy", follower.isBusy());
+//        telemetry.update();
     }
 }

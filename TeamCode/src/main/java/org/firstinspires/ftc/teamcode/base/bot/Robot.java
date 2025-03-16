@@ -23,9 +23,6 @@ import org.firstinspires.ftc.teamcode.utils.MotorConfig;
 import org.firstinspires.ftc.teamcode.utils.MotorDirectionConfig;
 import org.firstinspires.ftc.teamcode.utils.SimpleLogger;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
-
 public class Robot {
     public enum Mode {
         SOLO,
@@ -61,9 +58,9 @@ public class Robot {
         drive = new Drive(hardwareMap, Const.imu, new MotorConfig(Const.fr, Const.fl, Const.br, Const.bl),
                 new MotorDirectionConfig(false,true,false,true));
         hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0, 0.0);
-        //tSlide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
-        //                                0.001, 0,  0, 0.01,
-        //                                0.001, 0, 0, 0.01);
+        tSlide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
+                                        0.001, 0,  0, 0.01,
+                                        0.001, 0, 0, 0.01);
         slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
                                         0.1, 0, 0.000004, 0.21,
                                         0.1, 0, 0.000004, 0.21);
@@ -83,7 +80,7 @@ public class Robot {
     }
 
     public void setMode(Mode m, Gamepad g1, Gamepad g2) {
-        if(m == Mode.SOLO) {
+        if(m == Mode.SOLO || m == Mode.DUO) {
             InitTele(m, g1, g2);
         } else if(m == Mode.AUTO) {
             InitAuto();
@@ -91,19 +88,18 @@ public class Robot {
     }
 
     public void Action(GamepadEx g, GamepadKeys.Button b, Command Press, Command Release) {
-        if(Release == null)
-            new GamepadButton(g, b).whenPressed(Press);
-        else
-            new GamepadButton(g, b).whenPressed(Press).whenReleased(Release);
+        if(Release == null) new GamepadButton(g, b).whenPressed(Press);
+        new GamepadButton(g, b).whenPressed(Press).whenReleased(Release);
     }
 
     //Init
     public void InitAuto() {
-        Command i = new ParallelCommandGroup(
-                new ServoCommand(outtakeClaw, Const.grab),
-                new ServoCommand(intakeClawRot, .58)
+        CommandScheduler.getInstance().schedule(
+                new ParallelCommandGroup(
+                        new ServoCommand(outtakeClaw, Const.grab),
+                        new ServoCommand(intakeClawRot, .58)
+                )
         );
-        CommandScheduler.getInstance().schedule(i);
         CommandScheduler.getInstance().run();
     }
 
@@ -148,39 +144,25 @@ public class Robot {
     public Command SpecimenScoreReverse() {
         return new ParallelCommandGroup(
                 new ServoCommand(outtakeClaw, .25),
-                new ServoCommand(outtakeClawDistRight, 1-Const.distSpecimenGrabFinal),
-                new ServoCommand(outtakeClawDistLeft, Const.distSpecimenGrabFinal),
-                new ServoCommand(outtakeClawRot, Const.rotSpecimenScore),
+                new ServoCommand(outtakeClawDistRight, Const.distSpecimenGrabFinal),
+                new ServoCommand(outtakeClawDistLeft, 1-Const.distSpecimenGrabFinal),
+                new ServoCommand(outtakeClawRot, 1),
                 new ServoCommand(outtakeClawTwist, Const.twist),
-                new SetPIDFSlideArmCommand(slide, 270)
+                new SetPIDFSlideArmCommand(slide, 200)
         );
     }
 
     //Samples
-    public Command Intake(boolean accept) {
-        if(accept)
-            return new SequentialCommandGroup(
-                    new IntakeCommand(intake, -.8)
-            );
-        return new SequentialCommandGroup(
-                new IntakeCommand(intake, .8)
-        );
+    public Command Intake(Boolean accept) {
+        if(accept == null) return new IntakeCommand(intake, 0);
+        if(accept) return new IntakeCommand(intake, -.8);
+        return new IntakeCommand(intake, .8);
     }
 
-    public Command IntakeRest() {
-        return new SequentialCommandGroup(
-                new IntakeCommand(intake, 0)
-        );
-    }
-
-    public Command IntakeAuto(boolean accept, int time) {
-        if(accept)
-            return new SequentialCommandGroup(
-                    new IntakeAutoCommand(intakeAuto, -.8, time)
-            );
-        return new SequentialCommandGroup(
-                new IntakeAutoCommand(intakeAuto, .8, time)
-        );
+    public Command IntakeAuto(Boolean accept, int time) {
+        if(accept == null) return new IntakeCommand(intake, 0);
+        if(accept) return new IntakeAutoCommand(intakeAuto, -.8, time);
+        return new IntakeAutoCommand(intakeAuto, .8, time);
     }
 
     public Command SubmersibleIntake() {
@@ -222,7 +204,7 @@ public class Robot {
         );
     }
 
-    public Command HighBasketScore() {
+    public Command ClawRelease() {
         return new SequentialCommandGroup(
                 new ServoCommand(outtakeClaw, Const.release)
         );
@@ -239,12 +221,12 @@ public class Robot {
         );
     }
 
-    public FollowPathCommand FollowPath(PathChain path) {
+    public FollowPathCommand FollowPath(PathChain path, double power) {
         return new FollowPathCommand(
                 follower.getFollower(),
                 path,
                 true,
-                1
+                power
         );
     }
 }
