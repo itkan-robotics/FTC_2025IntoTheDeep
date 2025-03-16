@@ -7,11 +7,10 @@ import org.firstinspires.ftc.teamcode.base.bot.Robot;
 
 @TeleOp(name="Solo", group=".TeleOp")
 public class Solo extends CommandOpMode {
-    public Robot tanveerBot;
 
     @Override
     public void initialize() {
-        tanveerBot = new Robot(Robot.Mode.SOLO, gamepad1, null, hardwareMap);
+        Robot tanveerBot = new Robot(Robot.Mode.SOLO, gamepad1, null, hardwareMap);
 
         tanveerBot.Action(tanveerBot.base,
                 GamepadKeys.Button.DPAD_LEFT,
