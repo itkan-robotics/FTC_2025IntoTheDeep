@@ -62,8 +62,8 @@ public class Robot {
                                         0.001, 0,  0, 0.01,
                                         0.001, 0, 0, 0.01);
         slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
-                                        0.08, 0, 1e-40, 0.13,
-                                        0.08, 0, 1e-40, 0.13);
+                                        0.08, 0, 1e-40, 0.23,
+                                        0.08, 0, 1e-40, 0.23);
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
@@ -80,16 +80,18 @@ public class Robot {
     }
 
     public void setMode(Mode m, Gamepad g1, Gamepad g2) {
-        if(m == Mode.SOLO || m == Mode.DUO) {
-            InitTele(m, g1, g2);
-        } else if(m == Mode.AUTO) {
+        if(m == Mode.AUTO)
             InitAuto();
-        }
+        else
+            InitTele(m, g1, g2);
     }
 
     public void Action(GamepadEx g, GamepadKeys.Button b, Command Press, Command Release) {
-        if(Release == null) new GamepadButton(g, b).whenPressed(Press);
-        new GamepadButton(g, b).whenPressed(Press).whenReleased(Release);
+        if(Release == null) {
+            new GamepadButton(g, b).whenPressed(Press);
+        } else {
+            new GamepadButton(g, b).whenPressed(Press).whenReleased(Release);
+        }
     }
 
     //Init
@@ -129,7 +131,7 @@ public class Robot {
 
     public Command SpecimenScore() {
         return new SequentialCommandGroup(
-                new ServoCommand(outtakeClaw, .2),
+                new ServoCommand(outtakeClaw, 0),
                 new WaitCommand(pause, 300),
                 new ParallelCommandGroup(
                         new ServoCommand(outtakeClawDistRight, 1-Const.distSpecimenGrabFinal),
