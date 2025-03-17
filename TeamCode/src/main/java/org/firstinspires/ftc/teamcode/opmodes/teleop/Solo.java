@@ -1,16 +1,22 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
+import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.base.bot.Robot;
 
 @TeleOp(name="Solo", group=".TeleOp")
 public class Solo extends CommandOpMode {
+    public static Robot tanveerBot;
 
     @Override
     public void initialize() {
-        Robot tanveerBot = new Robot(Robot.Mode.SOLO, gamepad1, null, hardwareMap);
+        tanveerBot = new Robot(Robot.Mode.SOLO, gamepad1, null, hardwareMap, telemetry);
 
         tanveerBot.Action(tanveerBot.base,
                 GamepadKeys.Button.DPAD_LEFT,

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.auton;
 
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -70,11 +71,11 @@ public class PoseFinder extends OpMode {
     @Override
     public void loop() {
         CommandScheduler.getInstance().run();
-        FollowerSubsystem follower = tanveerBot.follower;
-        follower.getFollower().update();
+        Follower follower = tanveerBot.follower.getFollower();
+        follower.update();
 
         if (follower != null) {
-            Pose currentPose = follower.getFollower().getPose();
+            Pose currentPose = follower.getPose();
             telemetry.addData("X", String.format("%.2f", currentPose.getX()));
             telemetry.addData("Y", String.format("%.2f", currentPose.getY()));
             telemetry.addData("Heading", String.format("%.2f", Math.toDegrees(currentPose.getHeading())));

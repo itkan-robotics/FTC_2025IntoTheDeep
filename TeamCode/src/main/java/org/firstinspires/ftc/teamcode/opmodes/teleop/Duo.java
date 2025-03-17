@@ -10,7 +10,7 @@ public class Duo extends CommandOpMode {
     public static Robot tanveerBot;
     @Override
     public void initialize() {
-        tanveerBot = new Robot(Robot.Mode.DUO, gamepad1, gamepad2, hardwareMap);
+        tanveerBot = new Robot(Robot.Mode.DUO, gamepad1, gamepad2, hardwareMap, telemetry);
 
         tanveerBot.Action(tanveerBot.base,
                 GamepadKeys.Button.A,
