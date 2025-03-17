@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.base.subsystems.FollowerSubsystem;
 
 import java.util.ArrayList;
 
-@Autonomous(group = "Tuner")
+@Autonomous(group = ".Tuner")
 public class PoseFinder extends OpMode {
     private ArrayList<Pose> poses;
     private boolean previousLeftBumper = false;
@@ -19,7 +19,7 @@ public class PoseFinder extends OpMode {
 
     @Override
     public void init() {
-        tanveerBot = new Robot(Robot.Mode.SOLO, gamepad1, null, hardwareMap);
+        tanveerBot = new Robot(Robot.Mode.SOLO, gamepad1, null, hardwareMap, telemetry);
 
         tanveerBot.Action(tanveerBot.base,
                 GamepadKeys.Button.DPAD_LEFT,
@@ -76,9 +76,6 @@ public class PoseFinder extends OpMode {
 
         if (follower != null) {
             Pose currentPose = follower.getPose();
-            telemetry.addData("X", String.format("%.2f", currentPose.getX()));
-            telemetry.addData("Y", String.format("%.2f", currentPose.getY()));
-            telemetry.addData("Heading", String.format("%.2f", Math.toDegrees(currentPose.getHeading())));
 
             if (gamepad1.left_bumper && !previousLeftBumper) {
                 poses.add(new Pose(currentPose.getX(), currentPose.getY(), currentPose.getHeading()));

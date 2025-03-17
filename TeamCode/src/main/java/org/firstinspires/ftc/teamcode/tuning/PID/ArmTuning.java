@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @Config
-@TeleOp
+@TeleOp(group="PID")
 public class ArmTuning extends OpMode {
     private PIDController controller;
 

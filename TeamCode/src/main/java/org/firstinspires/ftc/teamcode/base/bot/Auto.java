@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 public class Auto {
-    static Robot bot = new Robot(Robot.Mode.AUTO, null, null, hardwareMap);
-    static Follower f = bot.follower.getFollower();
-    static double p = 1;
+    public static Robot tanveerBot;
+    public static Follower f;
+    public static double p = 1;
 
     public enum Spec {
         PRELOAD(
@@ -240,30 +240,35 @@ public class Auto {
         }
     }
 
+    public Auto(Robot bot) {
+        tanveerBot = bot;
+        f = bot.follower.getFollower();
+    }
+
     public static Command scoreSpecPreload() {
         return new SequentialCommandGroup(
-                bot.SpecimenScoreReverse(),
-                bot.FollowPath(Spec.PRELOAD.line(f), p),
-                bot.ClawRelease()
+                tanveerBot.SpecimenScoreReverse(),
+                tanveerBot.FollowPath(Spec.PRELOAD.line(f), p),
+                tanveerBot.ClawRelease()
         );
     }
 
     public static Command pushSamps() {
         return new SequentialCommandGroup(
-                bot.FollowPath(Spec.GO_TO_SAMPLES.curve(f), p),
-                bot.SpecimenGrab(),
-                bot.FollowPath(Spec.PUSH_SAMPLE_1.curve(f), p),
-                bot.FollowPath(Spec.PUSH_SAMPLE_2.curve(f), p),
-                bot.FollowPath(Spec.PUSH_SAMPLE_3.curve(f), p)
+                tanveerBot.FollowPath(Spec.GO_TO_SAMPLES.curve(f), p),
+                tanveerBot.SpecimenGrab(),
+                tanveerBot.FollowPath(Spec.PUSH_SAMPLE_1.curve(f), p),
+                tanveerBot.FollowPath(Spec.PUSH_SAMPLE_2.curve(f), p),
+                tanveerBot.FollowPath(Spec.PUSH_SAMPLE_3.curve(f), p)
         );
     }
 
     public static Command grabAndScoreSpec(Spec grabPath, Spec scorePath) {
         return new SequentialCommandGroup(
-                bot.SpecimenGrab(),
-                bot.FollowPath(grabPath.curve(f), p-.2),
-                bot.SpecimenScore(),
-                bot.FollowPath(scorePath.curve(f), p)
+                tanveerBot.SpecimenGrab(),
+                tanveerBot.FollowPath(grabPath.curve(f), p-.2),
+                tanveerBot.SpecimenScore(),
+                tanveerBot.FollowPath(scorePath.curve(f), p)
         );
     }
 }

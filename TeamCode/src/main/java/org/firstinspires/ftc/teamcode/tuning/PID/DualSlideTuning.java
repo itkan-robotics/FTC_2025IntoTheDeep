@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.base.bot.Const;
 
 @Config
-@TeleOp
+@TeleOp(group="PID")
 public class DualSlideTuning extends OpMode {
 
     public static double p = 0, i = 0, d = 0.0;

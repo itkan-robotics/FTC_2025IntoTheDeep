@@ -3,17 +3,18 @@ package org.firstinspires.ftc.teamcode.opmodes.auton;
 import com.arcrobotics.ftclib.command.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import org.firstinspires.ftc.teamcode.base.bot.Auto;
 import org.firstinspires.ftc.teamcode.base.bot.Robot;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import static org.firstinspires.ftc.teamcode.base.bot.Auto.*;
 
-@Autonomous(name="5+1", group = ".Auton")
-public class AutoSpec2 extends OpMode {
-    Robot bot = new Robot(Robot.Mode.AUTO, null, null, hardwareMap);
+@Autonomous(name="5+1", group = ".")
+public class Swamp extends OpMode {
+    Auto a;
 
     @Override
     public void init() {
+        a = new Auto(new Robot(Robot.Mode.AUTO, null, null,hardwareMap, telemetry));
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         scoreSpecPreload(),

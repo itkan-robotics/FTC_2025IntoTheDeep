@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.base.bot.Robot;
 
-@TeleOp(name="Solo", group=".TeleOp")
+@TeleOp(name="Solo", group=".")
 public class Solo extends CommandOpMode {
     public static Robot tanveerBot;
 
@@ -60,7 +60,7 @@ public class Solo extends CommandOpMode {
 
         tanveerBot.Action(tanveerBot.base,
                 GamepadKeys.Button.X,
-                tanveerBot.ClawRelease(),
+                tanveerBot.HighBasketScore(),
                 null);
     }
 }

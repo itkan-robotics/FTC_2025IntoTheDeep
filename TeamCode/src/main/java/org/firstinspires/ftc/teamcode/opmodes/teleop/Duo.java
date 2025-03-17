@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.base.bot.Robot;
 
-@TeleOp(name="Duo", group=".TeleOp")
+@TeleOp(name="Duo", group=".")
 public class Duo extends CommandOpMode {
     public static Robot tanveerBot;
     @Override
@@ -54,7 +54,7 @@ public class Duo extends CommandOpMode {
 
         tanveerBot.Action(tanveerBot.op,
                 GamepadKeys.Button.X,
-                tanveerBot.ClawRelease(),
+                tanveerBot.HighBasketScore(),
                 null);
     }
 }

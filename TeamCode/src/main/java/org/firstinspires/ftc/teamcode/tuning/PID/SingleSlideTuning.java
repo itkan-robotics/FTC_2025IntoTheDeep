@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.base.bot.Const;
 
 @Config
-@TeleOp
+@TeleOp(group="PID")
 public class SingleSlideTuning extends OpMode {
     private PIDController controller;
     private Servo intake;
