@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.base.bot.Robot;
 import static org.firstinspires.ftc.teamcode.base.bot.Auto.*;
 
 @Autonomous(name="5+1", group = ".")
-public class Swamp extends OpMode {
+public class Seeyuh extends OpMode {
     Auto a;
 
     @Override
