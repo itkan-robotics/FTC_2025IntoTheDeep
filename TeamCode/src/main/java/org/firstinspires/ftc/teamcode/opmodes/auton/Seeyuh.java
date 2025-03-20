@@ -10,27 +10,26 @@ import static org.firstinspires.ftc.teamcode.base.bot.Auto.*;
 
 @Autonomous(name="5+1", group = ".")
 public class Seeyuh extends OpMode {
-    Auto a;
 
     @Override
     public void init() {
-        a = new Auto(new Robot(Robot.Mode.AUTO, null, null,hardwareMap, telemetry));
+
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         scoreSpecPreload(),
                         pushSamps(),
 
-                        grabAndScoreSpec(Spec.GRAB_SPECIMEN_1,
-                                         Spec.SCORE_SPECIMEN_1),
+                        grabAndScoreSpec(Spec.GRAB_1,
+                                         Spec.SCORE_1),
 
-                        grabAndScoreSpec(Spec.GRAB_SPECIMEN_2,
-                                         Spec.SCORE_SPECIMEN_2),
+                        grabAndScoreSpec(Spec.GRAB_2,
+                                         Spec.SCORE_2),
 
-                        grabAndScoreSpec(Spec.GRAB_SPECIMEN_3,
-                                         Spec.SCORE_SPECIMEN_3),
+                        grabAndScoreSpec(Spec.GRAB_3,
+                                         Spec.SCORE_3),
 
-                        grabAndScoreSpec(Spec.GRAB_SPECIMEN_4,
-                                         Spec.SCORE_SPECIMEN_4)
+                        grabAndScoreSpec(Spec.GRAB_4,
+                                         Spec.SCORE_4)
                 )
         );
     }
