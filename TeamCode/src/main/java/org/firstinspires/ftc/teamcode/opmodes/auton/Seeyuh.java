@@ -10,9 +10,10 @@ import static org.firstinspires.ftc.teamcode.base.bot.Auto.*;
 
 @Autonomous(name="5+1", group = ".")
 public class Seeyuh extends OpMode {
-
+    Auto a;
     @Override
     public void init() {
+        a = new Auto(new Robot(Robot.Mode.AUTO, null, null, hardwareMap, telemetry));
 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(

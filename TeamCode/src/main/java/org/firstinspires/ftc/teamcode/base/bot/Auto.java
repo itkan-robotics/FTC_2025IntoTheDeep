@@ -19,7 +19,7 @@ public class Auto {
     public enum Spec {
         PRELOAD(
                 new Pose(0, 0, Math.toRadians(0)),
-                new Pose(31, 6, Math.toRadians(0))
+                new Pose(33, 6, Math.toRadians(0))
         ),
 
         GO_TO_SAMPLES(
@@ -52,12 +52,12 @@ public class Auto {
         GRAB_1(
                 new Pose(30, -48, Math.toRadians(180)),
                 new Pose(35, -30, Math.toRadians(180)),
-                new Pose(22, -30, Math.toRadians(180))
+                new Pose(20, -30, Math.toRadians(180))
         ),
 
         SCORE_1(
-                new Pose(23, -30, Math.toRadians(180)),
-                new Pose(35, 5, Math.toRadians(180)),
+                new Pose(20, -30, Math.toRadians(180)),
+                new Pose(30, 5, Math.toRadians(180)),
                 new Pose(45, 5, Math.toRadians(180))
         ),
 
@@ -68,30 +68,33 @@ public class Auto {
         ),
 
         SCORE_2(
-                new Pose(25, -30, Math.toRadians(180)),
-                new Pose(34,4, Math.toRadians(180))
+                new Pose(20, -30, Math.toRadians(180)),
+                new Pose(30, 4, Math.toRadians(180)),
+                new Pose(45,4, Math.toRadians(180))
         ),
 
         GRAB_3(
-                new Pose(36, 3, Math.toRadians(180)),
-                new Pose(20, -33, Math.toRadians(180)),
-                new Pose(25, -30, Math.toRadians(180))
+                new Pose(45, 4, Math.toRadians(180)),
+                new Pose(25, -30, Math.toRadians(180)),
+                new Pose(20, -30, Math.toRadians(180))
         ),
 
         SCORE_3(
-                new Pose(25, -30, Math.toRadians(180)),
-                new Pose(34, 2, Math.toRadians(180))
+                new Pose(20, -30, Math.toRadians(180)),
+                new Pose(30, 3, Math.toRadians(180)),
+                new Pose(45, 3, Math.toRadians(180))
         ),
 
         GRAB_4(
-                new Pose(36, 2, Math.toRadians(180)),
-                new Pose(20, -33, Math.toRadians(180)),
-                new Pose(25, -30, Math.toRadians(180))
+                new Pose(45, 3, Math.toRadians(180)),
+                new Pose(25, -30, Math.toRadians(180)),
+                new Pose(20, -30, Math.toRadians(180))
         ),
 
         SCORE_4(
-                new Pose(4.75, -33, Math.toRadians(180)),
-                new Pose(34, 0, Math.toRadians(180))
+                new Pose(20, -30, Math.toRadians(180)),
+                new Pose(30, 1, Math.toRadians(180)),
+                new Pose(45, 1, Math.toRadians(180))
         );
 
         private final Pose[] poses;
