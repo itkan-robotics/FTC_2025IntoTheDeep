@@ -48,10 +48,13 @@ public class Robot {
     public static PIDFSingleSlideSubsystem hSlide;
     public FollowerSubsystem follower;
     public static WaitSubsystem pause;
+    public Telemetry telemetry;
+    public HardwareMap hardwareMap;
 
     public Robot(Mode m, Gamepad g1, Gamepad g2, HardwareMap hardwareMap, Telemetry telemetry) {
         Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new FollowerSubsystem(new Follower(hardwareMap), start, telemetry);
+        this.telemetry = telemetry;
+        this.hardwareMap = hardwareMap;
 
         log = new SimpleLogger();
         intake = new IntakeSubsystem(hardwareMap, Const.intake);
@@ -77,25 +80,22 @@ public class Robot {
         outtakeClawRot = new ServoSubsystem(hardwareMap, Const.outtakeRot);
         outtakeClawTwist = new ServoSubsystem(hardwareMap, Const.outtakeTwist);
 
-        setMode(m, g1, g2);
+        Init(m, g1, g2);
     }
 
-    public void setMode(Mode m, Gamepad g1, Gamepad g2) {
-        if(m == Mode.AUTO)
-            InitAuto();
-        else
-            InitTele(m, g1, g2);
-    }
-
-    public void Action(GamepadEx g, GamepadKeys.Button b, Command Press, Command Release) {
-        if(Release == null) {
-            new GamepadButton(g, b).whenPressed(Press);
+    public void Init(Mode m, Gamepad g1, Gamepad g2) {
+        if (m == Mode.SOLO || m == Mode.DUO) {
+            if (m == Mode.SOLO) {
+                base = new GamepadEx(g1);
+            } else if (m == Mode.DUO) {
+                base = new GamepadEx(g1);
+                op = new GamepadEx(g2);
+            }
+            drive.setDefaultCommand(new DriveCommand(drive, base));
         } else {
-            new GamepadButton(g, b).whenPressed(Press).whenReleased(Release);
+            follower = new FollowerSubsystem(new Follower(hardwareMap), start, telemetry);
         }
-    }
 
-    public void InitAuto() {
         CommandScheduler.getInstance().schedule(
                 new ParallelCommandGroup(
                         new ServoCommand(outtakeClaw, Const.grab),
@@ -105,14 +105,12 @@ public class Robot {
         CommandScheduler.getInstance().run();
     }
 
-    public void InitTele(Mode m, Gamepad g1, Gamepad g2) {
-        if(m == Mode.SOLO) {
-            base = new GamepadEx(g1);
-        } else if(m == Mode.DUO) {
-            base = new GamepadEx(g1);
-            op = new GamepadEx(g2);
+    public void Action(GamepadEx g, GamepadKeys.Button b, Command Press, Command Release) {
+        if(Release == null) {
+            new GamepadButton(g, b).whenPressed(Press);
+        } else {
+            new GamepadButton(g, b).whenPressed(Press).whenReleased(Release);
         }
-        drive.setDefaultCommand(new DriveCommand(drive, base));
     }
 
     public Command SpecimenGrab() {

@@ -32,66 +32,66 @@ public class Auto {
                 new Pose(60, -35, Math.toRadians(180))
         ),
 
-        PUSH_SAMPLE_1(
+        PUSH_1(
                 new Pose(60, -35, Math.toRadians(180)),
                 new Pose(30, -35, Math.toRadians(180))
         ),
 
-        PUSH_SAMPLE_2(
+        PUSH_2(
                 new Pose(30, -35, Math.toRadians(180)),
                 new Pose(60, -35, Math.toRadians(180)),
                 new Pose(60, -45, Math.toRadians(180)),
                 new Pose(30, -45, Math.toRadians(180))
         ),
 
-        PUSH_SAMPLE_3(
+        PUSH_3(
                 new Pose(30, -45, Math.toRadians(180)),
                 new Pose(60, -45, Math.toRadians(180)),
                 new Pose(60, -48, Math.toRadians(180)),
                 new Pose(30, -48, Math.toRadians(180))
         ),
 
-        GRAB_SPECIMEN_1(
+        GRAB_1(
                 new Pose(30, -48, Math.toRadians(180)),
                 new Pose(35, -30, Math.toRadians(180)),
                 new Pose(22, -30, Math.toRadians(180))
         ),
 
-        SCORE_SPECIMEN_1(
+        SCORE_1(
                 new Pose(23, -30, Math.toRadians(180)),
                 new Pose(35, 5, Math.toRadians(180)),
                 new Pose(45, 5, Math.toRadians(180))
         ),
 
-        GRAB_SPECIMEN_2(
+        GRAB_2(
                 new Pose(45, 5, Math.toRadians(180)),
                 new Pose(25, -30, Math.toRadians(180)),
                 new Pose(20, -30, Math.toRadians(180))
         ),
 
-        SCORE_SPECIMEN_2(
+        SCORE_2(
                 new Pose(25, -30, Math.toRadians(180)),
                 new Pose(34,4, Math.toRadians(180))
         ),
 
-        GRAB_SPECIMEN_3(
+        GRAB_3(
                 new Pose(36, 3, Math.toRadians(180)),
                 new Pose(20, -33, Math.toRadians(180)),
                 new Pose(25, -30, Math.toRadians(180))
         ),
 
-        SCORE_SPECIMEN_3(
+        SCORE_3(
                 new Pose(25, -30, Math.toRadians(180)),
                 new Pose(34, 2, Math.toRadians(180))
         ),
 
-        GRAB_SPECIMEN_4(
+        GRAB_4(
                 new Pose(36, 2, Math.toRadians(180)),
                 new Pose(20, -33, Math.toRadians(180)),
                 new Pose(25, -30, Math.toRadians(180))
         ),
 
-        SCORE_SPECIMEN_4(
+        SCORE_4(
                 new Pose(4.75, -33, Math.toRadians(180)),
                 new Pose(34, 0, Math.toRadians(180))
         );
@@ -257,9 +257,9 @@ public class Auto {
         return new SequentialCommandGroup(
                 tanveerBot.FollowPath(Spec.GO_TO_SAMPLES.curve(f), p),
                 tanveerBot.SpecimenGrab(),
-                tanveerBot.FollowPath(Spec.PUSH_SAMPLE_1.curve(f), p),
-                tanveerBot.FollowPath(Spec.PUSH_SAMPLE_2.curve(f), p),
-                tanveerBot.FollowPath(Spec.PUSH_SAMPLE_3.curve(f), p)
+                tanveerBot.FollowPath(Spec.PUSH_1.curve(f), p),
+                tanveerBot.FollowPath(Spec.PUSH_2.curve(f), p),
+                tanveerBot.FollowPath(Spec.PUSH_3.curve(f), p)
         );
     }
 

@@ -22,26 +22,26 @@ public class FConstants {
 
         FollowerConstants.mass = 13;
 
-        FollowerConstants.xMovement = 73.27997976359272;
-        FollowerConstants.yMovement = 57.870290538559175;
+        FollowerConstants.xMovement = 74.8039;
+        FollowerConstants.yMovement = 59.7478;
 
-        FollowerConstants.forwardZeroPowerAcceleration = -29.19340954045141;
-        FollowerConstants.lateralZeroPowerAcceleration = -67.79415362575013;
+        FollowerConstants.forwardZeroPowerAcceleration = -26.8918;
+        FollowerConstants.lateralZeroPowerAcceleration = -65.6537;
 
-        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.1,0,0,0);
+        FollowerConstants.translationalPIDFCoefficients.setCoefficients(-0.1,0,1e-8,0.05);
         FollowerConstants.useSecondaryTranslationalPID = false;
         FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
 
-        FollowerConstants.headingPIDFCoefficients.setCoefficients(1.5,0, 5e-8, 0.1);
+        FollowerConstants.headingPIDFCoefficients.setCoefficients(1.2,0, 1e-13, 0.01);
         FollowerConstants.useSecondaryHeadingPID = false;
         FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
 
-        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.01,0,1e-40,0.6,0.01);
+        FollowerConstants.drivePIDFCoefficients.setCoefficients(-0.008,0,-1e-23,0.6,0.001);
         FollowerConstants.useSecondaryDrivePID = false;
         FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
 
         FollowerConstants.zeroPowerAccelerationMultiplier = 7;
-        FollowerConstants.centripetalScaling = 2e-45;
+        FollowerConstants.centripetalScaling = 2e-42;
 
         FollowerConstants.pathEndTimeoutConstraint = 200;
         FollowerConstants.pathEndTValueConstraint = 0.995;
@@ -49,7 +49,7 @@ public class FConstants {
         FollowerConstants.pathEndTranslationalConstraint = 0.1;
         FollowerConstants.pathEndHeadingConstraint = 0.007;
 
-        FollowerConstants.nominalVoltage = 12;
+        FollowerConstants.nominalVoltage = 13.31;
         FollowerConstants.useVoltageCompensationInAuto = true;
     }
 }

@@ -72,7 +72,6 @@ public class PoseFinder extends OpMode {
     public void loop() {
         CommandScheduler.getInstance().run();
         Follower follower = tanveerBot.follower.getFollower();
-        follower.update();
 
         if (follower != null) {
             Pose currentPose = follower.getPose();
