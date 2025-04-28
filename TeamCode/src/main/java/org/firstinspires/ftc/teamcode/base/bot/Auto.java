@@ -21,24 +21,24 @@ public class Auto {
     public enum Spec {
         PRELOAD(
                 new Pose(0, 0, Math.toRadians(0)),
-                new Pose(31, 6, Math.toRadians(0))
+                new Pose(24, 6, Math.toRadians(0))
         ),
 
         GO_TO_SAMPLES(
-                new Pose(31,  6, Math.toRadians(0)),
+                new Pose(24,  6, Math.toRadians(0)),
                 new Pose(20, 6, Math.toRadians(0)),
-                new Pose(20, -30, Math.toRadians(0)),
-                new Pose(60, -30, Math.toRadians(180)),
-                new Pose(60, -35, Math.toRadians(180))
+                new Pose(20, -25, Math.toRadians(0)),
+                new Pose(60, -25, Math.toRadians(180)),
+                new Pose(60, -25, Math.toRadians(180))
         ),
 
         PUSH_1(
                 new Pose(60, -35, Math.toRadians(180)),
-                new Pose(30, -35, Math.toRadians(180))
+                new Pose(20, -35, Math.toRadians(180))
         ),
 
         PUSH_2(
-                new Pose(30, -35, Math.toRadians(180)),
+                new Pose(20, -35, Math.toRadians(180)),
                 new Pose(60, -35, Math.toRadians(180)),
                 new Pose(60, -45, Math.toRadians(180)),
                 new Pose(30, -45, Math.toRadians(180))

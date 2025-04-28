@@ -36,7 +36,7 @@ import java.util.ArrayList;
 @Autonomous(name="5+0",group = ".Auton")
 public class AutoSpec extends OpMode {
     static Pose grab = new Pose(4.75, -33, Math.toRadians(180));
-    static int scoreX = 34;
+    static int scoreX = 33;
     public enum AutoPaths {
         PRELOAD(
                 new Pose(0, 0, Math.toRadians(0)),
@@ -45,29 +45,29 @@ public class AutoSpec extends OpMode {
 
         GO_TO_SAMPLES(
                 new Pose(38,  0, Math.toRadians(0)),
-                new Pose(15, 0, Math.toRadians(0)),
-                new Pose(15, -30, Math.toRadians(180)),
-                new Pose(45, -30, Math.toRadians(180)),
-                new Pose(45, -47, Math.toRadians(180))
+                new Pose(20, 0, Math.toRadians(0)),
+                new Pose(20, -30, Math.toRadians(180)),
+                new Pose(60, -30, Math.toRadians(180)),
+                new Pose(60, -37, Math.toRadians(180))
         ),
 
         PUSH_SAMPLE_1(
-                new Pose(45, -47, Math.toRadians(180)),
-                new Pose(10, -47, Math.toRadians(180))
+                new Pose(60, -36, Math.toRadians(180)),
+                new Pose(20, -36, Math.toRadians(180))
         ),
 
         PUSH_SAMPLE_2(
-                new Pose(10, -47, Math.toRadians(180)),
-                new Pose(45, -47, Math.toRadians(180)),
-                new Pose(45, -58, Math.toRadians(180)),
-                new Pose(10, -58, Math.toRadians(180))
+                new Pose(20, -36, Math.toRadians(180)),
+                new Pose(60, -36, Math.toRadians(180)),
+                new Pose(60, -47, Math.toRadians(180)),
+                new Pose(20, -47, Math.toRadians(180))
         ),
 
         PUSH_SAMPLE_3(
-                new Pose(10, -58, Math.toRadians(180)),
-                new Pose(45, -58, Math.toRadians(180)),
-                new Pose(45, -64, Math.toRadians(180)),
-                new Pose(10, -64, Math.toRadians(180))
+                new Pose(20, -47, Math.toRadians(180)),
+                new Pose(60, -47, Math.toRadians(180)),
+                new Pose(60, -53, Math.toRadians(180)),
+                new Pose(20, -53, Math.toRadians(180))
         ),
 
         GRAB_SPECIMEN_1(

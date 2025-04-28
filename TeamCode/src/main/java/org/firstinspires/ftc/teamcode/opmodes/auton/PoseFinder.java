@@ -20,6 +20,7 @@ public class PoseFinder extends OpMode {
     @Override
     public void init() {
         tanveerBot = new Robot(Robot.Mode.SOLO, gamepad1, null, hardwareMap, telemetry);
+        tanveerBot.follower = new FollowerSubsystem(new Follower(hardwareMap), tanveerBot.start, telemetry);
 
         tanveerBot.Action(tanveerBot.base,
                 GamepadKeys.Button.DPAD_LEFT,
@@ -71,9 +72,9 @@ public class PoseFinder extends OpMode {
     @Override
     public void loop() {
         CommandScheduler.getInstance().run();
-        Follower follower = tanveerBot.follower.getFollower();
 
-        if (follower != null) {
+        if (tanveerBot.follower != null) {
+            Follower follower = tanveerBot.follower.getFollower();
             Pose currentPose = follower.getPose();
 
             if (gamepad1.left_bumper && !previousLeftBumper) {
@@ -85,6 +86,10 @@ public class PoseFinder extends OpMode {
                 telemetry.addLine(String.format("Pose: (%.2f, %.2f, %.2f)", p.getX(), p.getY(), Math.toDegrees(p.getHeading())));
             }
         }
+        else {
+            throw new RuntimeException("Follower is null");
+        }
+        telemetry.update();
     }
 
     @Override
