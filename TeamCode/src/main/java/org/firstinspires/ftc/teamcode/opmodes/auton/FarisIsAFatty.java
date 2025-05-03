@@ -33,9 +33,9 @@ import org.firstinspires.ftc.teamcode.base.subsystems.WaitSubsystem;
 
 import java.util.ArrayList;
 
-@Autonomous(name="5+0",group = ".Auton")
-public class AutoSpec extends OpMode {
-    static Pose grab = new Pose(19, -33, Math.toRadians(180));
+@Autonomous(name="faris is fat",group = ".Auton")
+public class FarisIsAFatty extends OpMode {
+    static Pose grab = new Pose(4.75, -33, Math.toRadians(180));
     static int scoreX = 33;
     public enum AutoPaths {
         PRELOAD(
@@ -71,15 +71,14 @@ public class AutoSpec extends OpMode {
         ),
 
         GRAB_SPECIMEN_1(
-                new Pose(20, -53, Math.toRadians(180)),
-                new Pose(30, -47, Math.toRadians(180)),
-                new Pose(20, grab.getY()-7, Math.toRadians(180)),
+                new Pose(50, -64, Math.toRadians(180)),
+                new Pose(20, grab.getY()-10, Math.toRadians(180)),
                 new Pose(grab.getX() - 1, grab.getY() - 2.7, grab.getHeading())
         ),
 
         SCORE_SPECIMEN_1(
                 new Pose(grab.getX() - 1, grab.getY() - 2.7, grab.getHeading()),
-                new Pose(scoreX, 4, Math.toRadians(0))
+                new Pose(scoreX, 4, Math.toRadians(180))
         ),
 
         GRAB_SPECIMEN_2(
@@ -171,8 +170,8 @@ public class AutoSpec extends OpMode {
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
         intakeClawRot = new ServoSubsystem(hardwareMap, Const.intakeRot);
-        outtakeClawDistLeft = new ServoSubsystem(hardwareMap, Const.outtakeDistLeft);
-        outtakeClawDistRight = new ServoSubsystem(hardwareMap, Const.outtakeDistRight);
+        //outtakeClawDistLeft = new ServoSubsystem(hardwareMap, Const.outtakeDistLeft);
+        //outtakeClawDistRight = new ServoSubsystem(hardwareMap, Const.outtakeDistRight);
         vLimit = new LimitSwitchSubsystem(hardwareMap, Const.vLimit);
         hLimit = new LimitSwitchSubsystem(hardwareMap, Const.hLimit);
         shifter = new ServoSubsystem(hardwareMap, Const.gearShifter);
@@ -213,7 +212,7 @@ public class AutoSpec extends OpMode {
                                 new SlideResetCommand(slide, vLimit),
                                 new FollowPathCommand(follower, AutoPaths.PUSH_SAMPLE_3.curve(follower), true)
                         )
-                        );
+                );
 
         Command[] grabAndScore = {
                 grabAndScore(AutoPaths.GRAB_SPECIMEN_1, AutoPaths.SCORE_SPECIMEN_1, 270),
@@ -224,10 +223,10 @@ public class AutoSpec extends OpMode {
 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
-                    scorePreload,
-                    sampsToHp,
-                    grabAndScore[0], grabAndScore[1], grabAndScore[2], grabAndScore[3]
-        ));
+                        scorePreload,
+                        sampsToHp,
+                        grabAndScore[0], grabAndScore[1], grabAndScore[2], grabAndScore[3]
+                ));
     }
 
     public Command grabAndScore(AutoPaths grabPath, AutoPaths scorePath, int height) {
