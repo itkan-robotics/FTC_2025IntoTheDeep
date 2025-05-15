@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 @Autonomous(name="5+0",group = ".Auton")
 public class AutoSpec extends OpMode {
-    static Pose grab = new Pose(19, -33, Math.toRadians(180));
+    static Pose grab = new Pose(23, -33, Math.toRadians(180));
     static int scoreX = 33;
     public enum AutoPaths {
         PRELOAD(
