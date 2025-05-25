@@ -13,7 +13,7 @@ import java.util.function.DoubleSupplier;
  * (passed in as {@link DoubleSupplier}s). Written
  * explicitly for pedagogical purposes.
  */
-public class SetPIDFSlideArmCommand extends CommandBase {
+public class AutoPIDF extends CommandBase {
 
     private PIDFSlideSubsystem PIDFSlide;
     private PIDFSlideSubsystemAdv PIDFSlideAdv;
@@ -23,19 +23,20 @@ public class SetPIDFSlideArmCommand extends CommandBase {
     private final double change;
     private ElapsedTime t;
 
+    private int i = 0;
     private boolean b;
 
-    public SetPIDFSlideArmCommand(PIDFSingleSlideSubsystem PIDFSingleSlide, double change) {
+    public AutoPIDF(PIDFSingleSlideSubsystem PIDFSingleSlide, double change) {
         this.PIDFSingleSlide=PIDFSingleSlide;
         this.change = change;
         addRequirements(PIDFSingleSlide);
     }
-    public SetPIDFSlideArmCommand(PIDFSingleSlideSubsystemAdv PIDFSingleSlideAdv, double change) {
+    public AutoPIDF(PIDFSingleSlideSubsystemAdv PIDFSingleSlideAdv, double change) {
         this.PIDFSingleSlideAdv=PIDFSingleSlideAdv;
         this.change = change;
         addRequirements(PIDFSingleSlideAdv);
     }
-    public SetPIDFSlideArmCommand(PIDFSlideSubsystem PIDFSlide, double change) {
+    public AutoPIDF(PIDFSlideSubsystem PIDFSlide, double change) {
         this.PIDFSlide=PIDFSlide;
         this.change = change;
         this.PIDFSlide.usePID(true);
@@ -44,12 +45,12 @@ public class SetPIDFSlideArmCommand extends CommandBase {
         this.b = b;
         addRequirements(PIDFSlide);
     }
-    public SetPIDFSlideArmCommand(PIDFSlideSubsystemAdv PIDFSlideAdv, double change) {
+    public AutoPIDF(PIDFSlideSubsystemAdv PIDFSlideAdv, double change) {
         this.PIDFSlideAdv=PIDFSlideAdv;
         this.change = change;
         addRequirements(PIDFSlideAdv);
     }
-    public SetPIDFSlideArmCommand(PIDFArmSubsystem arm, double change) {
+    public AutoPIDF(PIDFArmSubsystem arm, double change) {
         this.arm=arm;
         this.change = change;
         addRequirements(arm);
@@ -57,6 +58,7 @@ public class SetPIDFSlideArmCommand extends CommandBase {
 
     @Override
     public void execute() {
+        i++;
         if(PIDFSlide!=null){
             //PIDFSlide.set(change);
 
@@ -71,6 +73,9 @@ public class SetPIDFSlideArmCommand extends CommandBase {
             double pid1 = controller.calculate(pos, change);
             double power1 = pid1+PIDFSlide.getF();
             PIDFSlide.set(power, power1);
+            if(i>= 100){
+                PIDFSlide.set(1, 1);
+            }
 
         }
         else if(PIDFSlideAdv != null){
@@ -90,7 +95,7 @@ public class SetPIDFSlideArmCommand extends CommandBase {
     public boolean isFinished(){
 
         if(PIDFSlide!=null){
-            return (PIDFSlide.getTick()<change+100&&PIDFSlide.getTick()>change-100);
+            return (PIDFSlide.getTick()<change+100&&PIDFSlide.getTick()>change-100) || (i >= 120);
         }
         else if(PIDFSlideAdv != null){
             return PIDFSlideAdv.getTick()<change+3&&PIDFSlideAdv.getTick()>change-3;

@@ -36,12 +36,12 @@ public class ServoTuning extends OpMode {
 
     @Override
     public void loop() {
-        outtakeRot.setPosition(Math.max(0, Math.min(1, outtakeRotPos)));
-        outtakeDistRight.setPosition(Math.max(0, Math.min(1, outtakeDistRightPos)));
-        outtakeDistLeft.setPosition(Math.max(0, Math.min(1, outtakeDistLeftPos)));
+        outtakeRot.setPosition(Math.max(0, Math.min(1, gamepad1.left_stick_x)));
+        outtakeDistRight.setPosition(Math.max(0, Math.min(1, 1-0.378)));
+        outtakeDistLeft.setPosition(Math.max(0, Math.min(1, .378)));
         intakeRot.setPosition(Math.max(0, Math.min(1, intakeRotPos)));
         outtakeClaw.setPosition(Math.max(0, Math.min(1, outtakeClawPos)));
-        outtakeTwist.setPosition(Math.max(0, Math.min(1, outtakeTwistPos)));
+        outtakeTwist.setPosition(Math.max(0, Math.min(1, .924)));
         shifter.setPosition(Math.max(0, Math.min(1, shifterPos)));
 
         telemetry.addData("Outtake Rot Position", outtakeRot.getPosition());

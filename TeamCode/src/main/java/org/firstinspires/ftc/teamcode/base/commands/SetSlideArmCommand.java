@@ -35,6 +35,7 @@ public class SetSlideArmCommand extends CommandBase {
     public SetSlideArmCommand(PIDFSlideSubsystem pSlide, double speed){
         this.pSlide = pSlide;
         this.speed = speed;
+        pSlide.usePID(false);
     }
 
     @Override

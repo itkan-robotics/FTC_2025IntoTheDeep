@@ -61,13 +61,12 @@ public class Robot {
         intakeAuto = new IntakeAutoSubsystem(hardwareMap, Const.intake, new ElapsedTime());
         drive = new Drive(hardwareMap, Const.imu, new MotorConfig(Const.fr, Const.fl, Const.br, Const.bl),
                 new MotorDirectionConfig(false,true,false,true));
-        hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0, 0.0);
         tSlide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
                 0.001, 0,  0, 0.01,
                 0.001, 0, 0, 0.01);
-        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
-                0.08, 0, 1e-40, 0.29,
-                0.08, 0, 1e-40, 0.29);
+        hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0.000002, 0.0);
+        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.2, 0, 0.000004, 0.25, 0.2, 0, 0.000004, 0.25);
+
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
@@ -96,12 +95,6 @@ public class Robot {
             follower = new FollowerSubsystem(new Follower(hardwareMap), start, telemetry);
         }
 
-        CommandScheduler.getInstance().schedule(
-                new ParallelCommandGroup(
-                        new ServoCommand(outtakeClaw, Const.grab),
-                        new ServoCommand(intakeClawRot, .58)
-                )
-        );
         CommandScheduler.getInstance().run();
     }
 
@@ -135,7 +128,7 @@ public class Robot {
                         new ServoCommand(outtakeClawDistLeft, Const.distSpecimenGrabFinal),
                         new ServoCommand(outtakeClawRot, Const.rotSpecimenScore),
                         new ServoCommand(outtakeClawTwist, Const.twist),
-                        new SetPIDFSlideArmCommand(slide, 270)
+                        new SetPIDFSlideArmCommand(slide, 315)
                 )
         );
     }
@@ -153,25 +146,22 @@ public class Robot {
 
     public Command Intake(Boolean accept) {
         if(accept == null) return new IntakeCommand(intake, 0);
-        if(accept) return new IntakeCommand(intake, -.8);
-        return new IntakeCommand(intake, .8);
+        if(accept) return new IntakeCommand(intake, -1);
+        return new IntakeCommand(intake, 1);
     }
 
-    public Command IntakeAuto(Boolean accept, int time) {
+    public Command IntakeAuto(Boolean accept) {
         if(accept == null) return new IntakeCommand(intake, 0);
-        if(accept) return new IntakeAutoCommand(intakeAuto, -.8, time);
-        return new IntakeAutoCommand(intakeAuto, .8, time);
+        if(accept) return new IntakeAutoCommand(intakeAuto, -1);
+        return new IntakeAutoCommand(intakeAuto, 1);
     }
 
     public Command SubmersibleIntake() {
         return new ParallelCommandGroup(
                 new ServoCommand(outtakeClaw, Const.release),
-                new ServoCommand(outtakeClawDistLeft, 1),
-                new ServoCommand(outtakeClawDistRight, 0),
-                new ServoCommand(outtakeClawTwist, 0.924),
                 new SequentialCommandGroup(
                     new ServoCommand(intakeClawRot, 0.4),
-                    new SetPIDFSlideArmCommand(hSlide, -670),
+                    new SetPIDFSlideArmCommand(hSlide, -700),
                     new ServoCommand(intakeClawRot, 0.12)
                 )
         );
@@ -180,33 +170,31 @@ public class Robot {
     public Command Transfer() {
         return new SequentialCommandGroup(
                 new ServoCommand(outtakeClaw, Const.release),
+                new ServoCommand(intakeClawRot, .3),
                 new ServoCommand(outtakeClawDistLeft, 1),
                 new ServoCommand(outtakeClawDistRight, 0),
-                new ServoCommand(outtakeClawTwist, 0.924),
-                new ServoCommand(intakeClawRot, .3),
                 new ServoCommand(outtakeClawRot, 0.7),
+                new ServoCommand(outtakeClawTwist, 0.924),
                 new SlideResetCommand(slide, vLimit),
                 new SlideResetCommand(hSlide, hLimit),
-                new WaitCommand(pause, 50),
-                new ServoCommand(outtakeClawRot, 0.83),
-                new WaitCommand(pause, 100),
+                new WaitCommand(pause, 300),
+                new ServoCommand(outtakeClawRot, 0.8),
+                new WaitCommand(pause, 300),
                 new ServoCommand(intakeClawRot, 0.36),
-                new WaitCommand(pause, 50),
-                new ServoCommand(outtakeClaw, Const.grab+.05),
-                new WaitCommand(pause, 50),
+                new WaitCommand(pause, 300),
+                new ServoCommand(outtakeClaw, Const.grab),
+                new WaitCommand(pause, 300),
                 new ServoCommand(intakeClawRot, .2),
-                //new SetPIDFSlideArmCommand(slide, 200)
-
-                HighBasketPos()
+                new SetPIDFSlideArmCommand(slide, 200)
         );
     }
 
     public Command HighBasketPos() {
         return new ParallelCommandGroup(
-                new ServoCommand(outtakeClawRot, 0.5),
+                new ServoCommand(outtakeClawRot, .64),
                 new ServoCommand(outtakeClawDistRight, 1-0.378),
                 new ServoCommand(outtakeClawDistLeft, 0.378),
-                new SetPIDFSlideArmCommand(slide, 1300)
+                new SetPIDFSlideArmCommand(slide, 1150)
         );
     }
 
