@@ -4,7 +4,9 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
@@ -14,90 +16,73 @@ import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.base.bot.Const;
-import org.firstinspires.ftc.teamcode.base.commands.AutoPIDF;
+
+import org.firstinspires.ftc.teamcode.base.commands.ExtendCommand;
 import org.firstinspires.ftc.teamcode.base.commands.FollowPathCommand;
-import org.firstinspires.ftc.teamcode.base.commands.IntakeAutoCommand;
+import org.firstinspires.ftc.teamcode.base.commands.IExtendCommand;
 import org.firstinspires.ftc.teamcode.base.commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.base.commands.ServoCommand;
-import org.firstinspires.ftc.teamcode.base.commands.SetPIDFSlideArmCommand;
-import org.firstinspires.ftc.teamcode.base.commands.SlideResetCommand;
-import org.firstinspires.ftc.teamcode.base.commands.WaitCommand;
-import org.firstinspires.ftc.teamcode.tuning.Pedro.constants.FConstants;
-import org.firstinspires.ftc.teamcode.tuning.Pedro.constants.LConstants;
-import org.firstinspires.ftc.teamcode.base.subsystems.IntakeAutoSubsystem;
-import org.firstinspires.ftc.teamcode.base.subsystems.LimitSwitchSubsystem;
-import org.firstinspires.ftc.teamcode.base.subsystems.PIDFSingleSlideSubsystem;
-import org.firstinspires.ftc.teamcode.base.subsystems.PIDFSlideSubsystem;
+import org.firstinspires.ftc.teamcode.base.commands.SmartIntakeCommand;
+import org.firstinspires.ftc.teamcode.base.subsystems.ColorSensorSubsystem;
+import org.firstinspires.ftc.teamcode.base.subsystems.ExtendSubsystem;
+import org.firstinspires.ftc.teamcode.base.subsystems.IExtendSubsystem;
+import org.firstinspires.ftc.teamcode.base.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.base.subsystems.ServoSubsystem;
 import org.firstinspires.ftc.teamcode.base.subsystems.WaitSubsystem;
+import org.firstinspires.ftc.teamcode.tuning.Pedro.constants.FConstants;
+import org.firstinspires.ftc.teamcode.tuning.Pedro.constants.LConstants;
 
 import java.util.ArrayList;
 
-@Autonomous(name="0+0",group = ".Auton")
+
+@Autonomous(name="0+5",group = ".Auton")
 public class AutoSamp extends OpMode {
-    static Pose score = new Pose(-10, 20, Math.toRadians(225));
-    static Pose finalScore = new Pose(-16, 16, Math.toRadians(225));
-    static double samp1X = -11.2;
-    static double samp2X = -20.25;
+    static Pose score = new Pose(4, 25, Math.toRadians(-45));
+
     public enum AutoPaths {
         PRELOAD(
-                new Pose(0, 0, Math.toRadians(90)),
+                new Pose(0, 0, Math.toRadians(0)),
                 score
         ),
 
-        GRAB_SAMPLE_1(
+        GRAB_1(
                 score,
-                new Pose(samp1X, 18, Math.toRadians(270))
+                new Pose(14, 9, Math.toRadians(0))
         ),
-
-        GRAB_SAMPLE_1_FINAL(
-                new Pose(samp1X, 18, Math.toRadians(270)),
-                new Pose(samp1X, 30, Math.toRadians(270))
-        ),
-
-        SCORE_SAMPLE_1(
-                new Pose(samp1X, 30, Math.toRadians(270)),
+        SCORE_1(
+                new Pose(14, 9, Math.toRadians(0)),
                 score
         ),
-
-        GRAB_SAMPLE_2(
+        GRAB_2(
                 score,
-                new Pose(samp2X, 18, Math.toRadians(270))
+                new Pose(14, 18, Math.toRadians(0))
         ),
-        GRAB_SAMPLE_2_FINAL(
-                new Pose(samp2X, 18, Math.toRadians(270)),
-                new Pose(samp2X, 30, Math.toRadians(270))
-        ),
-        SCORE_SAMPLE_2(
-                new Pose(samp2X, 30, Math.toRadians(270)),
+        SCORE_2(
+                new Pose(14, 18, Math.toRadians(0)),
                 score
         ),
-
-        GRAB_SAMPLE_3(
+        GRAB_3(
                 score,
-                new Pose(-14, 27, Math.toRadians(315))
+                new Pose(14, 16.5, Math.toRadians(20))
         ),
-        GRAB_SAMPLE_3_FINAL(
-                new Pose(-14, 27, Math.toRadians(315)),
-                new Pose(-21, 33, Math.toRadians(315))
-        ),
-
-        SCORE_SAMPLE_3(
-                new Pose(-21, 33, Math.toRadians(315)),
+        SCORE_3(
+                new Pose(14, 16.5, Math.toRadians(20)),
                 score
         ),
-
-        SCORE(
+        GRAB_4(
                 score,
-                finalScore
+                new Pose(60, 15, Math.toRadians(-90)),
+                new Pose(70, -8, Math.toRadians(-90))
         ),
-        LEAVE(
-                finalScore,
+        SCORE_4(
+                new Pose(70, -8, Math.toRadians(-90)),
+                new Pose(60, 15, Math.toRadians(-45)),
                 score
         );
+
 
         private final Pose[] poses;
 
@@ -134,136 +119,158 @@ public class AutoSamp extends OpMode {
         }
     }
 
-    private Follower follower;
+    private static Follower follower;
+    //FollowerConstants.holdPointTranslationalScaling = 0;
+    ExtendSubsystem vSlide;
+    IExtendSubsystem hSlide;
+    IntakeSubsystem intake;
+    ServoSubsystem intakeWrist, blocker, outtakeWrist, grabber;
+    ColorSensorSubsystem colorSensor;
 
-    public static ServoSubsystem outtakeClawRot, outtakeClaw, intakeClawDist, intakeClawRot, outtakeClawTwist, outtakeClawDistRight, outtakeClawDistLeft, shifter;
-    public static IntakeAutoSubsystem intake;
-    public static LimitSwitchSubsystem vLimit, hLimit;
-    public static PIDFSlideSubsystem slide;
-    public static PIDFSingleSlideSubsystem hSlide;
-    public static WaitSubsystem pause;
 
     @Override
     public void init() {
-        Constants.setConstants(FConstants.class, LConstants.class);
+        vSlide = new ExtendSubsystem(hardwareMap);
+        hSlide = new IExtendSubsystem(hardwareMap);
+        intake = new IntakeSubsystem(hardwareMap, "intake");
+        intakeWrist = new ServoSubsystem(hardwareMap, "intakeWrist");
+        blocker = new ServoSubsystem(hardwareMap, "blocker");
+        outtakeWrist = new ServoSubsystem(hardwareMap, "scorewrist");
+        grabber = new ServoSubsystem(hardwareMap, "grabber");
+        colorSensor = new ColorSensorSubsystem(hardwareMap, "color_sensor");
         follower = new Follower(hardwareMap);
-
-        intake = new IntakeAutoSubsystem(hardwareMap, Const.intake, new ElapsedTime());
-        hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0, 0.0);
-        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.2, 0, 0.000004, 0.25, 0.2, 0, 0.000004, 0.25);
-        pause = new WaitSubsystem();
-        outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
-        intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
-        intakeClawRot = new ServoSubsystem(hardwareMap, Const.intakeRot);
-        outtakeClawDistLeft = new ServoSubsystem(hardwareMap, Const.outtakeDistLeft);
-        outtakeClawDistRight = new ServoSubsystem(hardwareMap, Const.outtakeDistRight);
-        vLimit = new LimitSwitchSubsystem(hardwareMap, Const.vLimit);
-        hLimit = new LimitSwitchSubsystem(hardwareMap, Const.hLimit);
-        shifter = new ServoSubsystem(hardwareMap, Const.gearShifter);
-        outtakeClawRot = new ServoSubsystem(hardwareMap, Const.outtakeRot);
-        outtakeClawTwist = new ServoSubsystem(hardwareMap, Const.outtakeTwist);
-
+        Constants.setConstants(FConstants.class, LConstants.class);
         follower.setPose(AutoPaths.PRELOAD.getPoses()[0]);
-        outtakeClaw.set(Const.grab);
-        intakeClawRot.set(.58);
-
-        Command scoreCommand = new ParallelCommandGroup(
-                new ServoCommand(outtakeClawRot, .64),
-                new ServoCommand(outtakeClawDistRight, 1-0.378),
-                new ServoCommand(outtakeClawDistLeft, 0.378),
-                new AutoPIDF(slide, 1150)
-        );
-        Command releaseCommand = new SequentialCommandGroup(
-                new WaitCommand(pause, 50),
-                new ServoCommand(outtakeClaw, Const.release)
-        );
-        Command resetSlideCommand = new SlideResetCommand(slide, vLimit);
-        Command intakeCommand = new SequentialCommandGroup(
+        Command preloadScore = new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                        new ServoCommand(outtakeClaw, Const.release),
                         new SequentialCommandGroup(
-                                new ServoCommand(intakeClawRot, 0.4),
-                                new SetPIDFSlideArmCommand(hSlide, -700),
-                                new ServoCommand(intakeClawRot, 0.12)
-                        )
+                                new WaitCommand(500),
+                                new FollowPathCommand(follower, AutoPaths.PRELOAD.curve(follower))
+                        ),
+                        new ExtendCommand(vSlide, 1200),
+                        new ServoCommand(outtakeWrist, 0.9)
                 ),
-                new IntakeAutoCommand(intake, -1)
-        );
-        Command transferCommand = new SequentialCommandGroup(
-                new ServoCommand(outtakeClaw, Const.release),
-                new ServoCommand(intakeClawRot, .3),
-                new ServoCommand(outtakeClawDistLeft, 1),
-                new ServoCommand(outtakeClawDistRight, 0),
-                new ServoCommand(outtakeClawRot, 0.7),
-                new ServoCommand(outtakeClawTwist, 0.924),
-                new SlideResetCommand(slide, vLimit),
-                new SlideResetCommand(hSlide, hLimit),
-                new IntakeAutoCommand(intake, 0),
-                new WaitCommand(pause, 300),
-                new ServoCommand(outtakeClawRot, 0.8),
-                new WaitCommand(pause, 300),
-                new ServoCommand(intakeClawRot, 0.36),
-                new WaitCommand(pause, 300),
-                new ServoCommand(outtakeClaw, Const.grab),
-                new WaitCommand(pause, 300),
-                new ServoCommand(intakeClawRot, .2),
-                new SetPIDFSlideArmCommand(slide, 200)
+                new WaitCommand(300),
+                new ServoCommand(grabber, 0.1),
+                new WaitCommand(300)
         );
 
-        Command sampAutoPath = new SequentialCommandGroup(
-                new FollowPathCommand(follower, AutoPaths.PRELOAD.curve(follower), true),
-                scoreCommand,
-                new FollowPathCommand(follower, AutoPaths.SCORE.curve(follower), true),
-                releaseCommand,
-                new FollowPathCommand(follower, AutoPaths.LEAVE.curve(follower), true),
-                resetSlideCommand,
-                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_1.curve(follower), true),
-                intakeCommand,
-                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_1_FINAL.curve(follower), true, .5),
-                transferCommand,
-                new FollowPathCommand(follower, AutoPaths.SCORE_SAMPLE_1.curve(follower), true),
-                scoreCommand,
-                new FollowPathCommand(follower, AutoPaths.SCORE.curve(follower), true),
-                releaseCommand,
-                new FollowPathCommand(follower, AutoPaths.LEAVE.curve(follower), true),
-                resetSlideCommand,
-                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_2.curve(follower), true),
-                intakeCommand,
-                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_2_FINAL.curve(follower), true, .5),
-                transferCommand,
-                new FollowPathCommand(follower, AutoPaths.SCORE_SAMPLE_2.curve(follower), true),
-                scoreCommand,
-                new FollowPathCommand(follower, AutoPaths.SCORE.curve(follower), true),
-                releaseCommand,
-                new FollowPathCommand(follower, AutoPaths.LEAVE.curve(follower), true),
-                resetSlideCommand,
-                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_3.curve(follower), true),
-                intakeCommand,
-                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_3_FINAL.curve(follower), true, .5),
-                transferCommand,
-                new FollowPathCommand(follower, AutoPaths.SCORE_SAMPLE_3.curve(follower), true),
-                scoreCommand,
-                new FollowPathCommand(follower, AutoPaths.SCORE.curve(follower), true),
-                releaseCommand,
-                new FollowPathCommand(follower, AutoPaths.LEAVE.curve(follower), true),
-                resetSlideCommand
+/*
+        //Scores
+        Command score = new SequentialCommandGroup(
+                new ExtendCommand(vSlide, 1200),
+                new WaitCommand(pause, 100),
+                new FollowPathCommand(follower, AutoPaths.SCORE.curve(follower)),
+                new WaitCommand(pause, 100),
+                new ServoCommand(outtakeWrist, 0.9),
+                new WaitCommand(pause, 300),
+                new ServoCommand(grabber, 0.1),
+                new WaitCommand(pause, 500)
+        );
+        //Brings everything down, intakes, and transfers
+        Command i = new SequentialCommandGroup(
+                new WaitCommand(pause, 1000),
+                new ParallelCommandGroup(
+                        new ExtendCommand(vSlide, 0),
+                        new IExtendCommand(hSlide, -590),
+                        new ServoCommand(intakeWrist, 0.6),
+                        new ServoCommand(blocker, 0),
+                        new ServoCommand(outtakeWrist, 0.15),
+                        new ServoCommand(grabber, 0.1),
+                        new MotorCommand(intake, -1)
+                ),
+                new WaitCommand(pause, 300),
+                new IExtendCommand(hSlide, 0),
+                new ServoCommand(intakeWrist, 0.18),
+                new WaitCommand(pause, 600),
+                new MotorCommand(intake, -0.5),
+                new ServoCommand(blocker, 0.5),
+                new WaitCommand(pause, 500),
+                new ServoCommand(grabber, 1),
+                new WaitCommand(pause, 200),
+                new MotorCommand(intake, 0)
+        );
+*/
+        Command drive = new SequentialCommandGroup(
+                preloadScore,
+                intake(AutoPaths.GRAB_1),
+                score(AutoPaths.SCORE_1),
+                intake(AutoPaths.GRAB_2),
+                score(AutoPaths.SCORE_2),
+                intake(AutoPaths.GRAB_3),
+                score(AutoPaths.SCORE_3),
+                intake(AutoPaths.GRAB_4),
+                score(AutoPaths.SCORE_4)
         );
 
 
-
-        CommandScheduler.getInstance().schedule(sampAutoPath);
+        CommandScheduler.getInstance().schedule(drive);
     }
+
+
+
 
 
     @Override
     public void loop() {
         follower.update();
         CommandScheduler.getInstance().run();
-
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
         telemetry.addData("Heading", follower.getPose().getHeading());
         telemetry.addData("Busy", follower.isBusy());
+        telemetry.addData("Outtake Wrist", outtakeWrist.get());
+        telemetry.addData("Intake Wrist", intakeWrist.get());
+        telemetry.addData("Grabber", grabber.get());
+        telemetry.addData("Blocker", blocker.get());
+        telemetry.addData("vSlide", vSlide.get());
+        telemetry.addData("hSlide", hSlide.get());
+        telemetry.addData("Color Sensor", colorSensor.getColor());
         telemetry.update();
+    }
+    public Command score(AutoPaths p){
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new FollowPathCommand(follower, p.curve(follower)),
+                        new SequentialCommandGroup(
+                                new ParallelCommandGroup(
+                                        new IExtendCommand(hSlide, 0),
+                                        new ServoCommand(intakeWrist, 0),
+                                        new IntakeCommand(intake, -0.6)
+                                ),
+                                new WaitCommand(300),
+                                new ServoCommand(blocker, 0.65),
+                                new WaitCommand(300),
+                                new ParallelCommandGroup(
+                                        new ExtendCommand(vSlide, 1200),
+                                        new ServoCommand(outtakeWrist, 0.9),
+                                        new IntakeCommand(intake, 0),
+                                        new ServoCommand(grabber, 1)
+                                )
+                        )
+                ),
+                new WaitCommand(500),
+                new ServoCommand(grabber, 0.1),
+                new WaitCommand(300)
+        );
+    }
+    public Command intake(AutoPaths p){
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new FollowPathCommand(follower, p.curve(follower)),
+                        new ServoCommand(outtakeWrist, 0.15),
+                        new ServoCommand(blocker, 0),
+                        new SequentialCommandGroup(
+                                new WaitCommand(500),
+                                new ExtendCommand(vSlide, 0)
+                        )
+                ),
+                new WaitCommand(500),
+                new ParallelCommandGroup(
+                        new ServoCommand(intakeWrist, 0.35),
+                        new IExtendCommand(hSlide, -590),
+                        new SmartIntakeCommand(intake, colorSensor, -0.95, "Yellow")
+                )
+        );
     }
 }
