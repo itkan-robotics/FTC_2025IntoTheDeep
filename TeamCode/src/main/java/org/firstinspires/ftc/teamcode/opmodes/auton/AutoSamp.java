@@ -12,6 +12,7 @@ import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -36,6 +37,7 @@ import org.firstinspires.ftc.teamcode.base.subsystems.WaitSubsystem;
 
 import java.util.ArrayList;
 
+@Disabled
 @Autonomous(name="0+0",group = ".Auton")
 public class AutoSamp extends OpMode {
     static Pose score = new Pose(-10, 20, Math.toRadians(225));

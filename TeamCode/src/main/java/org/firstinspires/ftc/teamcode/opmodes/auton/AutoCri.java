@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.auton;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -8,10 +9,9 @@ import org.firstinspires.ftc.teamcode.base.bot.Auto;
 import org.firstinspires.ftc.teamcode.base.bot.Robot;
 
 import static org.firstinspires.ftc.teamcode.base.bot.Auto.*;
-@Disabled
-
-@Autonomous(name="5+1", group=".")
-public class Seeyuh extends OpMode {
+@Config
+@Autonomous(name="CRI", group=".")
+public class AutoCri extends OpMode {
     Auto a;
     @Override
     public void init() {
@@ -23,16 +23,16 @@ public class Seeyuh extends OpMode {
                         pushSamps(),
 
                         grabAndScoreSpec(Spec.GRAB_1,
-                                         Spec.SCORE_1),
+                                Spec.SCORE_1),
 
                         grabAndScoreSpec(Spec.GRAB_2,
-                                         Spec.SCORE_2),
+                                Spec.SCORE_2),
 
                         grabAndScoreSpec(Spec.GRAB_3,
-                                         Spec.SCORE_3),
+                                Spec.SCORE_3),
 
                         grabAndScoreSpec(Spec.GRAB_4,
-                                         Spec.SCORE_4)
+                                Spec.SCORE_4)
                 )
         );
     }
