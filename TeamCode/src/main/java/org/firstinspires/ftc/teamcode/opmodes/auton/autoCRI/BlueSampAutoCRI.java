@@ -37,13 +37,15 @@ import org.firstinspires.ftc.teamcode.base.subsystems.WaitSubsystem;
 
 import java.util.ArrayList;
 
-
+//+y is forward
+//+x brings it to the right
 @Autonomous(name="BlueSampAutoCRI",group = ".Auton")
 public class BlueSampAutoCRI extends OpMode {
-    static Pose score = new Pose(10, 20, Math.toRadians(330));
-    static Pose finalScore = new Pose(16, 16, Math.toRadians(330));
-    static double samp1X = 16;
-    static double samp2X = 28;
+    static Pose score = new Pose(11, 19, Math.toRadians(330));
+    static Pose finalScore = new Pose(17, 15, Math.toRadians(330));
+    static double samp1X = 11;
+    static double samp2X = 20;
+    static double samp3x = 22;
     public enum AutoPaths {
         PRELOAD(
                 new Pose(0, 0, Math.toRadians(90)),
@@ -52,44 +54,43 @@ public class BlueSampAutoCRI extends OpMode {
 
         GRAB_SAMPLE_1(
                 score,
-                new Pose(samp1X, 15.5, Math.toRadians(265))
+                new Pose(samp1X, 20, Math.toRadians(265))
         ),
 
         GRAB_SAMPLE_1_FINAL(
-                new Pose(samp1X, 15.5, Math.toRadians(265)),
-                new Pose(samp1X, 21, Math.toRadians(265))
+                new Pose(samp1X, 22, Math.toRadians(265)),
+                new Pose(samp1X, 24, Math.toRadians(265))
         ),
 
         SCORE_SAMPLE_1(
-                new Pose(samp1X, 21, Math.toRadians(265)),
-                new Pose(5, 20, Math.toRadians(330)) //score
+                new Pose(samp1X, 21, Math.toRadians(330)),
+                score
         ),
 
         GRAB_SAMPLE_2(
-                new Pose(5, 20, Math.toRadians(330)), //score
-                new Pose(samp2X, 18, Math.toRadians(265))
+                score,
+                new Pose(samp2X, 20, Math.toRadians(265))
         ),
         GRAB_SAMPLE_2_FINAL(
-                new Pose(samp2X, 18, Math.toRadians(265)),
-                new Pose(samp2X, 18, Math.toRadians(265))
+                new Pose(samp2X, 22, Math.toRadians(265)),
+                new Pose(samp2X, 24   , Math.toRadians(265))
         ),
         SCORE_SAMPLE_2(
-                new Pose(samp2X, 18, Math.toRadians(265)),
-                new Pose(2,25, Math.toRadians(330)) //score
-
+                new Pose(samp2X, 20, Math.toRadians(265)),
+                score
         ),
 
         GRAB_SAMPLE_3(
-                new Pose(5, 20, Math.toRadians(330)), //score
-                new Pose(26, 22, Math.toRadians(150))
+                score,
+                new Pose(samp3x, 28, Math.toRadians(240))
         ),
         GRAB_SAMPLE_3_FINAL(
-                new Pose(26, 22, Math.toRadians(150)),
-                new Pose(26, 27, Math.toRadians(150))
+                new Pose(samp3x, 30, Math.toRadians(240)),
+                new Pose(samp3x, 32, Math.toRadians(240))
         ),
 
         SCORE_SAMPLE_3(
-                new Pose(26, 33, Math.toRadians(150)),
+                new Pose(samp3x, 33, Math.toRadians(330)),
                 score
         ),
 
@@ -239,17 +240,17 @@ public class BlueSampAutoCRI extends OpMode {
                 new FollowPathCommand(follower, AutoPaths.SCORE.curve(follower), true),
                 releaseCommand,
                 new FollowPathCommand(follower, AutoPaths.LEAVE.curve(follower), true),
+                resetSlideCommand,
+                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_3.curve(follower), true),
+                intakeCommand,
+                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_3_FINAL.curve(follower), true, .5),
+                transferCommand,
+                new FollowPathCommand(follower, AutoPaths.SCORE_SAMPLE_3.curve(follower), true),
+                scoreCommand,
+                new FollowPathCommand(follower, AutoPaths.SCORE.curve(follower), true),
+                releaseCommand,
+                new FollowPathCommand(follower, AutoPaths.LEAVE.curve(follower), true),
                 resetSlideCommand
-//                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_3.curve(follower), true),
-//                intakeCommand,
-//                new FollowPathCommand(follower, AutoPaths.GRAB_SAMPLE_3_FINAL.curve(follower), true, .5),
-//                transferCommand,
-//                new FollowPathCommand(follower, AutoPaths.SCORE_SAMPLE_3.curve(follower), true),
-//                scoreCommand,
-//                new FollowPathCommand(follower, AutoPaths.SCORE.curve(follower), true),
-//                releaseCommand,
-//                new FollowPathCommand(follower, AutoPaths.LEAVE.curve(follower), true),
-//                resetSlideCommand
         );
 
 
