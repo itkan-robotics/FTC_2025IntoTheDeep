@@ -37,10 +37,10 @@ import java.util.ArrayList;
 
 @Autonomous(name="THe actual auto that'll hopefully work that I had to make cause you guys are all bums",group = ".Auton")
 public class AutoLeft extends OpMode {
-    static Pose grab = new Pose(3, -20, Math.toRadians(180));
+    static Pose grab = new Pose(-20, 3, Math.toRadians(180));
     //get the pose for this plzzzz, should be for left human player
-    static Pose scoreF = new Pose(65, -14, Math.toRadians(90));
-    static Pose scoreI = new Pose(24, -22, Math.toRadians(90));
+    static Pose scoreF = new Pose(-14, 65, Math.toRadians(90));
+    static Pose scoreI = new Pose(-22, 24, Math.toRadians(90));
     public enum AutoPaths {
         PRELOAD(
                 new Pose(0, 0, Math.toRadians(0)),
