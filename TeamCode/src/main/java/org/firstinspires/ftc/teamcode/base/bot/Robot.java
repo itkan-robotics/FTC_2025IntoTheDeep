@@ -65,8 +65,9 @@ public class Robot {
                 0.001, 0,  0, 0.01,
                 0.001, 0, 0, 0.01);
         hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0.000002, 0.0);
-        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.25, 0, 0.000004, 0.25, 0.25, 0, 0.000004, 0.25);
-
+        //slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.25, 0, 0.000004, 0.25, 0.25, 0, 0.000004, 0.25);
+        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, .905, 0, 0.000004, .121, .905, 0, 0.000004, .121);
+        //note to reinitialize slides in autos
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
@@ -128,7 +129,7 @@ public class Robot {
                         new ServoCommand(outtakeClawDistLeft, Const.distSpecimenGrabFinal),
                         new ServoCommand(outtakeClawRot, Const.rotSpecimenScore),
                         new ServoCommand(outtakeClawTwist, Const.twist),
-                        new SetPIDFSlideArmCommand(slide, 315)
+                        new SetPIDFSlideArmCommand(slide, 315) // originally 315
                 )
         );
     }
@@ -178,7 +179,7 @@ public class Robot {
                 new SlideResetCommand(slide, vLimit),
                 new SlideResetCommand(hSlide, hLimit),
                 new WaitCommand(pause, 300),
-                new ServoCommand(outtakeClawRot, 0.8),
+                new ServoCommand(outtakeClawRot, 0.7265),
                 new WaitCommand(pause, 300),
                 new ServoCommand(intakeClawRot, 0.36),
                 new WaitCommand(pause, 300),
@@ -194,7 +195,7 @@ public class Robot {
                 new ServoCommand(outtakeClawRot, .64),
                 new ServoCommand(outtakeClawDistRight, 1-0.378),
                 new ServoCommand(outtakeClawDistLeft, 0.378),
-                new SetPIDFSlideArmCommand(slide, 1150)
+                new SetPIDFSlideArmCommand(slide, 2750)
         );
     }
 
