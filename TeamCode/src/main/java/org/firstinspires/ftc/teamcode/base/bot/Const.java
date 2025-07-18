@@ -22,7 +22,7 @@ public class Const {
 
     //Outtake
     public static double outtakeClawDistTempTransfer = -1, outtakeClawDistRightInitTransfer = 1, outtakeClawDistLeftInitTransfer = 0, outtakeClawDistNew = 0.7, outtakeClawDistRightFinalTransfer = -1, outtakeClawDistLeftFinalTransfer = -1, outtakeClawRotInitTransfer = 0.347, outtakeClawRotTransfer = .505,
-            release = 0.5, grab = .32,
+            release = 0.5, grab = .13,
             distBasketPos = .4, rotBasketPos = 0,
             distSpecimenGrab = 0.01, rotSpecimenGrab = .916, distSpecimenGrabFinal = .785, rotSpecimenScore = 0.6, distSpecimenScore = .786;
 
