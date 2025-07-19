@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -44,19 +45,15 @@ public class DualSlideTuning extends OpMode {
 
     @Override
     public void loop() {
-        controller = new PIDFController(p, i, d, f);
-        double pid = controller.calculate(motor1.getCurrentPosition(), target);
-
-        pos1 = motor1.getCurrentPosition();
-        pos2 = motor2.getCurrentPosition();
-        
-        motor1.setPower(pid);
-        motor2.setPower(pid);
-
+        motor1.setTargetPosition((int)target);
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor1.setPower(1);
+        motor2.setTargetPosition((int)target);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setPower(1);
         telemetry.addData("pos1", pos1);
         telemetry.addData("pos2", pos2);
         telemetry.addData("target", target);
-        telemetry.addData("power", pid);
         telemetry.update();
     }
 }
