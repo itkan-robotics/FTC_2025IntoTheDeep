@@ -31,8 +31,8 @@ public class DualSlideTuning extends OpMode {
         motor1 = hardwareMap.get(DcMotorEx.class, Const.lSlide);
         motor2 = hardwareMap.get(DcMotorEx.class, Const.rSlide);
 
-        motor1.setDirection(DcMotorSimple.Direction.REVERSE);
-        motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motor1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor1.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -47,9 +47,9 @@ public class DualSlideTuning extends OpMode {
         controller = new PIDFController(p, i, d, f);
         double pid = controller.calculate(motor1.getCurrentPosition(), target);
 
-
-
-
+        pos1 = motor1.getCurrentPosition();
+        pos2 = motor2.getCurrentPosition();
+        
         motor1.setPower(pid);
         motor2.setPower(pid);
 
