@@ -18,7 +18,7 @@ public class PIDFSlideSubsystem extends SubsystemBase {
     private int pos = 0, pos1 = 0;
     private double target = 0;
     boolean use = true;
-    private PIDController controller;
+    private PIDFController controller;
     public PIDFSlideSubsystem(HardwareMap h, String right, String left, Direction rightD, Direction leftD, double p, double i, double d, double f, double p1, double i1, double d1, double f1) {
         this.p = p;
         this.i = i;
@@ -36,7 +36,7 @@ public class PIDFSlideSubsystem extends SubsystemBase {
         this.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         this.left.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         this.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        controller = new PIDController(p, i, d);
+        controller = new PIDFController(p, i, d, f);
     }
 
     public void set(double target) {
@@ -52,7 +52,7 @@ public class PIDFSlideSubsystem extends SubsystemBase {
         this.left.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         this.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
-    public PIDController getController(){
+    public PIDFController getController(){
         return controller;
     }
     public double getP(){
@@ -74,27 +74,15 @@ public class PIDFSlideSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-        /*
-            if(Math.abs(target-pos) < 3){
-                right.setPower(f);
-                left.setPower(f);
-            }
-            else {
-                controller.setPID(p, i, d);
-                pos = right.getCurrentPosition();
-                double pid = controller.calculate(pos, this.target);
-                double power = pid+f;
 
-                controller1.setPID(p, i, d);
-                pos1 = left.getCurrentPosition();
-                double pid1 = controller.calculate(pos1, this.target);
-                double power1 = pid1+f;
+        controller.setPIDF(p, i, d, f);
+        pos = right.getCurrentPosition();
+        double pid = controller.calculate(pos, this.target);
 
-                right.setPower(power);
-                left.setPower(power1);
-            }
-*/
+
+        right.setPower(pid);
+        left.setPower(pid);
+
 
 
 

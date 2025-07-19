@@ -60,17 +60,18 @@ public class SetPIDFSlideArmCommand extends CommandBase {
         if(PIDFSlide!=null){
             //PIDFSlide.set(change);
 
-            PIDController controller = PIDFSlide.getController();
-            controller.setPID(PIDFSlide.getP(), PIDFSlide.getI(), PIDFSlide.getD());
-            int pos = PIDFSlide.getTick();
-            double pid = controller.calculate(pos, change);
-            double power = pid+PIDFSlide.getF();
-
-            PIDController controller1 = PIDFSlide.getController();
-            controller1.setPID(PIDFSlide.getP(), PIDFSlide.getI(), PIDFSlide.getD());
-            double pid1 = controller.calculate(pos, change);
-            double power1 = pid1+PIDFSlide.getF();
-            PIDFSlide.set(power, power1);
+//            PIDController controller = PIDFSlide.getController();
+//            controller.setPID(PIDFSlide.getP(), PIDFSlide.getI(), PIDFSlide.getD());
+//            int pos = PIDFSlide.getTick();
+//            double pid = controller.calculate(pos, change);
+//            double power = pid+PIDFSlide.getF();
+//
+//            PIDController controller1 = PIDFSlide.getController();
+//            controller1.setPID(PIDFSlide.getP(), PIDFSlide.getI(), PIDFSlide.getD());
+//            double pid1 = controller.calculate(pos, change);
+//            double power1 = pid1+PIDFSlide.getF();
+//            PIDFSlide.set(power, power1);
+            PIDFSlide.set(change);
 
         }
         else if(PIDFSlideAdv != null){
