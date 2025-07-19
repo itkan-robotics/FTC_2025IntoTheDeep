@@ -61,12 +61,9 @@ public class Robot {
         intakeAuto = new IntakeAutoSubsystem(hardwareMap, Const.intake, new ElapsedTime());
         drive = new Drive(hardwareMap, Const.imu, new MotorConfig(Const.fr, Const.fl, Const.br, Const.bl),
                 new MotorDirectionConfig(false,true,false,true));
-        tSlide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
-                0.001, 0,  0, 0.01,
-                0.001, 0, 0, 0.01);
         hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0.000002, 0.0);
-        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
-                0.01, 0, 0, 0, 0.01, 0, 0, 0);
+        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE,
+                0.03, 0, 3e-6, 0, 0.03, 0, 3e-6, 0);
 //        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
 //                0.25, 0, 0.000004, 0.25, 0.25, 0, 0.000004, 0.25);
 //        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, .905, 0, 0.000004, .121, .905, 0, 0.000004, .121);

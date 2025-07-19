@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.base.subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -72,22 +73,23 @@ public class PIDFSlideSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        controller.setPIDF(p, i, d, f);
-        pos = left.getCurrentPosition();
-        double pid = controller.calculate(pos, this.target);
-
-        right.setPower(pid);
-        left.setPower(pid);
+//        controller.setPIDF(p, i, d, f);
+//        pos = left.getCurrentPosition();
+//        double pid = controller.calculate(pos, this.target);
+//
+//        right.setPower(pid);
+//        left.setPower(pid);
 //
 //
 //        right.setPower(pid);
 //        left.setPower(pid);
-//        right.setTargetPosition((int)target);
-//        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        right.setPower(1);
-//        left.setTargetPosition((int)target);
-//        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        left.setPower(1);
+
+        right.setTargetPosition((int)target);
+        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        right.setPower(1);
+        left.setTargetPosition((int)target);
+        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        left.setPower(1);
 
 
 
