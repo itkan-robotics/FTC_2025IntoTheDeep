@@ -170,6 +170,8 @@ public class BlueSampAutoCRI extends OpMode {
         outtakeClawRot = new ServoSubsystem(hardwareMap, Const.outtakeRot);
         outtakeClawTwist = new ServoSubsystem(hardwareMap, Const.outtakeTwist);
 
+        slide.reset();
+        hSlide.reset();
         follower.setPose(AutoPaths.PRELOAD.getPoses()[0]);
         outtakeClaw.set(Const.grab);
         intakeClawRot.set(.58);
