@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.base.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.base.subsystems.*;
@@ -62,17 +63,15 @@ public class AutoPIDF extends CommandBase {
         if(PIDFSlide!=null){
             //PIDFSlide.set(change);
 
-            PIDController controller = PIDFSlide.getController();
-            controller.setPID(PIDFSlide.getP(), PIDFSlide.getI(), PIDFSlide.getD());
+            PIDFController controller = PIDFSlide.getController();
+            controller.setPIDF(PIDFSlide.getP(), PIDFSlide.getI(), PIDFSlide.getD(), PIDFSlide.getF());
             int pos = PIDFSlide.getTick();
             double pid = controller.calculate(pos, change);
-            double power = pid+PIDFSlide.getF();
 
-            PIDController controller1 = PIDFSlide.getController();
-            controller1.setPID(PIDFSlide.getP(), PIDFSlide.getI(), PIDFSlide.getD());
+            PIDFController controller1 = PIDFSlide.getController();
+            controller1.setPIDF(PIDFSlide.getP(), PIDFSlide.getI(), PIDFSlide.getD(), PIDFSlide.getF());
             double pid1 = controller.calculate(pos, change);
-            double power1 = pid1+PIDFSlide.getF();
-            PIDFSlide.set(power, power1);
+            PIDFSlide.set(pid, pid1);
             if(i>= 100){
                 PIDFSlide.set(1, 1);
             }
