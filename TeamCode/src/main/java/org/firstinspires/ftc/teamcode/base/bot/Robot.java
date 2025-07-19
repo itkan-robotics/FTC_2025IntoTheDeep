@@ -68,7 +68,6 @@ public class Robot {
         slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
                 0.25, 0, 0.000004, 0.25, 0.25, 0, 0.000004, 0.25);
         //slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, .905, 0, 0.000004, .121, .905, 0, 0.000004, .121);
-        //note to reinitialize slides in autos
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
