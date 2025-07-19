@@ -21,7 +21,7 @@ public class DualSlideTuning extends OpMode {
     public static double f = 0;
     public static double target = 500;
 
-    private PIDFController controller;
+    private PIDController controller;
     private int pos1, pos2;
     private DcMotorEx motor1, motor2;
 
@@ -32,28 +32,41 @@ public class DualSlideTuning extends OpMode {
         motor1 = hardwareMap.get(DcMotorEx.class, Const.lSlide);
         motor2 = hardwareMap.get(DcMotorEx.class, Const.rSlide);
 
-        motor1.setDirection(DcMotorSimple.Direction.FORWARD);
-        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         motor1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor1.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         motor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        controller = new PIDFController(p, i, d, f);
+        controller = new PIDController(p, i, d);
     }
 
     @Override
     public void loop() {
-        motor1.setTargetPosition((int)target);
-        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor1.setPower(1);
-        motor2.setTargetPosition((int)target);
-        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor2.setPower(1);
+        PIDController controller = new PIDController(0, 0, 0);
+        controller.setPID(p, i, d);
+
+        double pid = controller.calculate(motor1.getCurrentPosition(), target);
+        double power = pid+f;
+
+        PIDController controller1 = new PIDController(0, 0, 0);
+        controller1.setPID(p,i,d);
+        double pid1 = controller.calculate(motor2.getCurrentPosition(), target);
+        double power1 = pid1+f;
+
+        motor1.setPower(power);
+        motor2.setPower(power1);
+
+        pos1 = motor1.getCurrentPosition();
+        pos2 = motor2.getCurrentPosition();
+
         telemetry.addData("pos1", pos1);
         telemetry.addData("pos2", pos2);
         telemetry.addData("target", target);
+
         telemetry.update();
+
     }
 }
