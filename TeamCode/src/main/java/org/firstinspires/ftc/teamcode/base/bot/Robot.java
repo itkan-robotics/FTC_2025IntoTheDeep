@@ -89,7 +89,6 @@ public class Robot {
                 base = new GamepadEx(g1);
                 op = new GamepadEx(g2);
             }
-            slide.setDefaultCommand(new SlideArmCommand(slide, new GamepadEx(g1)));
             drive.setDefaultCommand(new DriveCommand(drive, base));
         } else {
             follower = new FollowerSubsystem(new Follower(hardwareMap), start, telemetry);
@@ -109,8 +108,7 @@ public class Robot {
     public Command SpecimenGrab() {
         return new ParallelCommandGroup(
                 new ServoCommand(outtakeClaw, Const.release),
-                //new SlideResetCommand(slide, vLimit),
-                //new SlidePosCommand(slide, 0),
+                new SlideResetCommand(slide, vLimit),
                 new ServoCommand(intakeClawRot, .3),
                 new SlideResetCommand(hSlide, hLimit),
                 new ServoCommand(outtakeClawTwist, Const.untwist),
@@ -128,9 +126,8 @@ public class Robot {
                         new ServoCommand(outtakeClawDistRight, 1-Const.distSpecimenGrabFinal),
                         new ServoCommand(outtakeClawDistLeft, Const.distSpecimenGrabFinal),
                         new ServoCommand(outtakeClawRot, Const.rotSpecimenScore),
-                        new ServoCommand(outtakeClawTwist, Const.twist)
-                        //new SlidePosCommand(slide, 315)
-                        //new SetPIDFSlideArmCommand(slide, 315) // originally 315
+                        new ServoCommand(outtakeClawTwist, Const.twist),
+                        new SetPIDFSlideArmCommand(slide, 315)
                 )
         );
     }
@@ -141,9 +138,8 @@ public class Robot {
                 new ServoCommand(outtakeClawDistRight, Const.distSpecimenGrabFinal),
                 new ServoCommand(outtakeClawDistLeft, 1-Const.distSpecimenGrabFinal),
                 new ServoCommand(outtakeClawRot, 1),
-                new ServoCommand(outtakeClawTwist, Const.twist)
-                //new SlidePosCommand(slide, 200)
-                //new SetPIDFSlideArmCommand(slide, 200)
+                new ServoCommand(outtakeClawTwist, Const.twist),
+                new SetPIDFSlideArmCommand(slide, 200)
         );
     }
 
@@ -178,8 +174,7 @@ public class Robot {
                 new ServoCommand(outtakeClawDistRight, 0),
                 new ServoCommand(outtakeClawRot, 0.7),
                 new ServoCommand(outtakeClawTwist, 0.924),
-                //new SlideResetCommand(slide, vLimit),
-                //new SlidePosCommand(slide, 0),
+                new SlideResetCommand(slide, vLimit),
                 new SlideResetCommand(hSlide, hLimit),
                 new WaitCommand(pause, 300),
                 new ServoCommand(outtakeClawRot, 0.7265),
@@ -188,9 +183,8 @@ public class Robot {
                 new WaitCommand(pause, 300),
                 new ServoCommand(outtakeClaw, Const.grab),
                 new WaitCommand(pause, 300),
-                new ServoCommand(intakeClawRot, .2)
-//                new SlidePosCommand(slide, 200)
-                //new SetPIDFSlideArmCommand(slide, 200)
+                new ServoCommand(intakeClawRot, .2),
+                new SetPIDFSlideArmCommand(slide, 200)
         );
     }
 
@@ -198,9 +192,8 @@ public class Robot {
         return new ParallelCommandGroup(
                 new ServoCommand(outtakeClawRot, .64),
                 new ServoCommand(outtakeClawDistRight, 1-0.378),
-                new ServoCommand(outtakeClawDistLeft, 0.378)
-//                new SlidePosCommand(slide, 2750)
-                //new SetPIDFSlideArmCommand(slide, 2750)
+                new ServoCommand(outtakeClawDistLeft, 0.378),
+                new SetPIDFSlideArmCommand(slide, 2750)
         );
     }
 
@@ -215,8 +208,7 @@ public class Robot {
                 new ServoCommand(outtakeClaw, Const.release),
                 new WaitCommand(pause, 300),
                 new ParallelCommandGroup(
-                        //new SlideResetCommand(slide, vLimit),
-//                        new SlidePosCommand(slide, 0),
+                        new SlideResetCommand(slide, vLimit),
                         new ServoCommand(outtakeClawDistLeft, 1),
                         new ServoCommand(outtakeClawDistRight, 0),
                         new ServoCommand(outtakeClawRot, 0.7),
@@ -227,8 +219,7 @@ public class Robot {
 
     public Command Reset() {
         return new ParallelCommandGroup(
-                //new SlideResetCommand(slide, vLimit),
-//                new SlidePosCommand(slide, 0),
+                new SlideResetCommand(slide, vLimit),
                 new ServoCommand(outtakeClawDistLeft, 1),
                 new ServoCommand(outtakeClawDistRight, 0),
                 new ServoCommand(outtakeClawRot, 0.7),
