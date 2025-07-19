@@ -80,7 +80,7 @@ public class SlideResetCommand extends CommandBase {
                 slide.set(0, 0);
                 slide.reset();
                 slide.set(0);
-                slide.usePID(true);
+                slide.usePID(false);
             }
             else if (pslide != null) {
                 pslide.set(0, 0);

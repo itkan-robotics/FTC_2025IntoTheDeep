@@ -67,6 +67,5 @@ public class DualSlideTuning extends OpMode {
         telemetry.addData("target", target);
 
         telemetry.update();
-
     }
 }

@@ -17,7 +17,6 @@ public class PIDFSlideSubsystem extends SubsystemBase {
     private double target = 0;
     boolean use = true;
     PIDFController pidf;
-    private PIDFController controller;
     public PIDFSlideSubsystem(HardwareMap h, String right, String left, Direction rightD, Direction leftD, double p, double i, double d, double f, double p1, double i1, double d1, double f1) {
         this.p = p;
         this.i = i;
@@ -48,7 +47,7 @@ public class PIDFSlideSubsystem extends SubsystemBase {
         this.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
     public PIDFController getController(){
-        return controller;
+        return pidf;
     }
     public double getP(){
         return p;
@@ -71,7 +70,7 @@ public class PIDFSlideSubsystem extends SubsystemBase {
     public void periodic() {
         if (use) {
             pos = left.getCurrentPosition(); //Change from left to whatever motor has a positive encoder when lifted
-            double pid = controller.calculate(pos, this.target);
+            double pid = pidf.calculate(pos, this.target);
             right.setPower(pid);
             left.setPower(pid);
         }

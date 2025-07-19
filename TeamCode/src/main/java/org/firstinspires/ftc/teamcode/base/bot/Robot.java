@@ -61,11 +61,12 @@ public class Robot {
         drive = new Drive(hardwareMap, Const.imu, new MotorConfig(Const.fr, Const.fl, Const.br, Const.bl),
                 new MotorDirectionConfig(false,true,false,true));
         hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0.000002, 0.0);
+
         //slide = new SlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE);
-//        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE,
-//                .06, 0, 5e-3, 0,
-//                .06, 0, 5e-3, 0);
-        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.08, 0, 1e-40, 0.29, 0.08, 0, 1e-40, 0.29); //Set directions properly (first one is right slide)
+        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
+                .06, 0, 5e-5, 0,
+                .06, 0, 5e-5, 0);
+//        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.08, 0, 1e-40, 0.29, 0.08, 0, 1e-40, 0.29); //Set directions properly (first one is right slide)
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
@@ -79,6 +80,8 @@ public class Robot {
         outtakeClawTwist = new ServoSubsystem(hardwareMap, Const.outtakeTwist);
 
         Init(m, g1, g2);
+
+        telemetry.addData("Pos", slide.getTick());
     }
 
     public void Init(Mode m, Gamepad g1, Gamepad g2) {

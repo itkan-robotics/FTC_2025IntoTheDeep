@@ -153,8 +153,11 @@ public class BlueSampAutoCRI extends OpMode {
         follower = new Follower(hardwareMap);
 
         intake = new IntakeAutoSubsystem(hardwareMap, Const.intake, new ElapsedTime());
-        hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0, 0.0);
-        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.2, 0, 0.000004, 0.25, 0.2, 0, 0.000004, 0.25);
+        hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide,
+                -0.02, 0, 0.000002, 0.0);
+        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE,
+                .06, 0, 5e-5, 0,
+                .06, 0, 5e-5, 0);
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
@@ -175,7 +178,8 @@ public class BlueSampAutoCRI extends OpMode {
                 new ServoCommand(outtakeClawRot, .64),
                 new ServoCommand(outtakeClawDistRight, 1-0.378),
                 new ServoCommand(outtakeClawDistLeft, 0.378),
-                new AutoPIDF(slide, 1150)
+                //new AutoPIDF(slide, 1150)
+                new SetPIDFSlideArmCommand(slide, 1800)
         );
         Command releaseCommand = new SequentialCommandGroup(
                 new WaitCommand(pause, 50),
