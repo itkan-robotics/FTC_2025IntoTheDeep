@@ -73,33 +73,17 @@ public class PIDFSlideSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-//        controller.setPIDF(p, i, d, f);
-//        pos = left.getCurrentPosition();
-//        double pid = controller.calculate(pos, this.target);
-//
-//        right.setPower(pid);
-//        left.setPower(pid);
-//
-//
-//        right.setPower(pid);
-//        left.setPower(pid);
+            controller.setPIDF(p, i, d, f);
+            pos = left.getCurrentPosition();
+            double pid = controller.calculate(pos, this.target);
 
-        right.setTargetPosition((int)target);
-        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        right.setPower(1);
-        left.setTargetPosition((int)target);
-        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        left.setPower(1);
-
-
-
-
-
-
-        //telemetry.addData("pos", pos);
-        //telemetry.addData("target", target);
-        //telemetry.addData("pos1", pos1);
-        //telemetry.addData("target1", target1);
-        //telemetry.update();
+            right.setPower(pid);
+            left.setPower(pid);
+//        right.setTargetPosition((int)target);
+//        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        right.setPower(1);
+//        left.setTargetPosition((int)target);
+//        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        left.setPower(1);
     }
 }

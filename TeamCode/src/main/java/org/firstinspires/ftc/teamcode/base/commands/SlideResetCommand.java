@@ -76,9 +76,10 @@ public class SlideResetCommand extends CommandBase {
     @Override
     public void end(boolean interrupted){
         if(!interrupted){
-            if (slide != null) {
+            if (slide != null) {    
                 slide.set(0, 0);
                 slide.reset();
+                slide.set(0);
                 slide.usePID(true);
             }
             else if (pslide != null) {
