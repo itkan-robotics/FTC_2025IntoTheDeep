@@ -75,13 +75,13 @@ public class PIDFSlideSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        controller.setPIDF(p, i, d, f);
-        pos = right.getCurrentPosition();
-        double pid = controller.calculate(pos, this.target);
-
-
-        right.setPower(pid);
-        left.setPower(pid);
+//        controller.setPIDF(p, i, d, f);
+//        pos = right.getCurrentPosition();
+//        double pid = controller.calculate(pos, this.target);
+//
+//
+//        right.setPower(pid);
+//        left.setPower(pid);
 //        controller.setPIDF(p, i, d, f);
 //        pos = right.getCurrentPosition();
 //        double pid = controller.calculate(pos, this.target);
