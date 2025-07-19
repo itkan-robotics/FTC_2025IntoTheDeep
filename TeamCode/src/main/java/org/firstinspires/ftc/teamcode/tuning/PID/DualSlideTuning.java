@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -19,7 +20,7 @@ public class DualSlideTuning extends OpMode {
     public static double f = 0;
     public static double target = 500;
 
-    private PIDController controller;
+    private PIDFController controller;
     private int pos1, pos2;
     private DcMotorEx motor1, motor2;
 
@@ -38,30 +39,24 @@ public class DualSlideTuning extends OpMode {
         motor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         motor2.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        controller = new PIDController(p, i, d);
+        controller = new PIDFController(p, i, d, f);
     }
 
     @Override
     public void loop() {
-        PIDController controller = new PIDController(0, 0, 0);
-        controller.setPID(p, i, d);
+        controller = new PIDFController(p, i, d, f);
         double pid = controller.calculate(motor1.getCurrentPosition(), target);
-        double power = pid+f;
-
-        PIDController controller1 = new PIDController(0, 0, 0);
-        controller1.setPID(p,i,d);
-        double pid1 = controller.calculate(motor2.getCurrentPosition(), target);
-        double power1 = pid1+f;
 
 
 
-        motor1.setPower(power);
-        motor2.setPower(power1);
+
+        motor1.setPower(pid);
+        motor2.setPower(pid);
 
         telemetry.addData("pos1", pos1);
         telemetry.addData("pos2", pos2);
         telemetry.addData("target", target);
-        telemetry.addData("power", power);
+        telemetry.addData("power", pid);
         telemetry.update();
     }
 }
