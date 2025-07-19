@@ -43,7 +43,7 @@ public class Robot {
     public static IntakeSubsystem intake;
     public static IntakeAutoSubsystem intakeAuto;
     public static LimitSwitchSubsystem vLimit, hLimit;
-    public static SlideSubsystem slide;
+    public static PIDFSlideSubsystem slide;
     public static PIDFSingleSlideSubsystem hSlide;
     public FollowerSubsystem follower;
     public static WaitSubsystem pause;
@@ -61,14 +61,11 @@ public class Robot {
         drive = new Drive(hardwareMap, Const.imu, new MotorConfig(Const.fr, Const.fl, Const.br, Const.bl),
                 new MotorDirectionConfig(false,true,false,true));
         hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0.000002, 0.0);
-        slide = new SlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE);
-
+        //slide = new SlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE);
 //        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE,
 //                .06, 0, 5e-3, 0,
 //                .06, 0, 5e-3, 0);
-//        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD,
-//                0.25, 0, 0.000004, 0.25, 0.25, 0, 0.000004, 0.25);
-//        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, .905, 0, 0.000004, .121, .905, 0, 0.000004, .121);
+        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.08, 0, 1e-40, 0.29, 0.08, 0, 1e-40, 0.29); //Set directions properly (first one is right slide)
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);

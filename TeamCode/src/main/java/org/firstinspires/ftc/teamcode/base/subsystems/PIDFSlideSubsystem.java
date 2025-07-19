@@ -69,7 +69,7 @@ public class PIDFSlideSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-            pos = left.getCurrentPosition();
+            pos = left.getCurrentPosition(); //Change from left to whatever motor has a positive encoder when lifted
             double pid = controller.calculate(pos, this.target);
             right.setPower(pid);
             left.setPower(pid);
