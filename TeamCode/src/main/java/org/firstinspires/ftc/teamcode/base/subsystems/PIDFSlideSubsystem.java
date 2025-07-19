@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.base.subsystems;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -81,9 +78,6 @@ public class PIDFSlideSubsystem extends SubsystemBase {
 
         right.setPower(pid);
         left.setPower(pid);
-        controller.setPIDF(p, i, d, f);
-        pos = right.getCurrentPosition();
-        pid = controller.calculate(pos, this.target);
 //
 //
 //        right.setPower(pid);
