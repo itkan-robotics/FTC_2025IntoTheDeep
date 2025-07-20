@@ -35,7 +35,7 @@ import org.firstinspires.ftc.teamcode.base.subsystems.WaitSubsystem;
 import java.util.ArrayList;
 
 
-@Autonomous(name="THe actual auto that'll hopefully work that I had to make cause you guys are all bums",group = ".Auton")
+@Autonomous(name="AutoLeft",group = ".Auton")
 public class AutoLeft extends OpMode {
     static Pose grab = new Pose(-20, 3, Math.toRadians(180));
     //get the pose for this plzzzz, should be for left human player
@@ -111,7 +111,9 @@ public class AutoLeft extends OpMode {
 
         intake = new IntakeAutoSubsystem(hardwareMap, Const.intake, new ElapsedTime());
         hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0, 0.0);
-        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.1, 0, 0.000004, 0.21, 0.1, 0, 0.000004, 0.21);
+        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE,
+                .06, 0, 5e-5, 0,
+                .06, 0, 5e-5, 0);
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
