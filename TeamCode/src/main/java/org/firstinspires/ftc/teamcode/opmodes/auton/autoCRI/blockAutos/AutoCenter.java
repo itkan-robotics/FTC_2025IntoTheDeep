@@ -37,16 +37,16 @@ import java.util.ArrayList;
 
 @Autonomous(name="AutoCenter",group = ".Auton")
 public class AutoCenter extends OpMode {
-    static Pose grab = new Pose(6, -20, Math.toRadians(180));
+    static Pose grab = new Pose(20, 6, Math.toRadians(180));
     //get the pose for this plzzzz, should be for left human player
-    static Pose scoreF = new Pose(65, -14, Math.toRadians(-90));
-    static Pose scoreI = new Pose(24, -22, Math.toRadians(-90));
-    static Pose grab1 = new Pose(6, -34, Math.toRadians(180));
+    static Pose scoreF = new Pose(14, 65, Math.toRadians(-90));
+    static Pose scoreI = new Pose(22, 24, Math.toRadians(-90));
+    static Pose grab1 = new Pose(34, 6, Math.toRadians(180));
     //get the pose for this plzzzz, should be for left human player
-    static Pose scoreF1 = new Pose(65, -40, Math.toRadians(90));
-    static Pose scoreI1 = new Pose(24, -32, Math.toRadians(90));
-    static Pose grabF1 = new Pose(3, -34, Math.toRadians(180));
-    static Pose grabF = new Pose(3, -20, Math.toRadians(180));
+    static Pose scoreF1 = new Pose(40, 65, Math.toRadians(90));
+    static Pose scoreI1 = new Pose(32, 24, Math.toRadians(90));
+    static Pose grabF1 = new Pose(34, 3, Math.toRadians(180));
+    static Pose grabF = new Pose(20, 3, Math.toRadians(180));
 
     public enum AutoPaths {
         PRELOAD(
