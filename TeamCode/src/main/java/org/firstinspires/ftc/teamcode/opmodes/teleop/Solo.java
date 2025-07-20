@@ -8,6 +8,9 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
 import org.firstinspires.ftc.teamcode.base.bot.Robot;
 
 @TeleOp(name="Solo", group=".")
@@ -63,4 +66,18 @@ public class Solo extends CommandOpMode {
                 tanveerBot.HighBasketScore(),
                 null);
     }
+
+//    @Override
+//    public void run() {
+//        DcMotor leftSlide = hardwareMap.get(DcMotor.class, "lSlide");
+//        DcMotor rightSlide = hardwareMap.get(DcMotor.class, "rSlide");
+//        CommandScheduler.getInstance().run();
+//
+//        while(opModeIsActive() && !isStopRequested())
+//        {
+//            telemetry.addData("Pos", leftSlide.getCurrentPosition());
+//            telemetry.addData("Pos", rightSlide.getCurrentPosition());
+//            telemetry.update();
+//        }
+//    }
 }

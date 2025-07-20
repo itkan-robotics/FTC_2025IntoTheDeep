@@ -78,8 +78,6 @@ public class Robot {
         outtakeClawTwist = new ServoSubsystem(hardwareMap, Const.outtakeTwist);
 
         Init(m, g1, g2);
-
-        telemetry.addData("Pos", slide.getTick());
     }
 
     public void Init(Mode m, Gamepad g1, Gamepad g2) {
@@ -90,7 +88,11 @@ public class Robot {
                 base = new GamepadEx(g1);
                 op = new GamepadEx(g2);
             }
+            telemetry.addData("Pos", slide.getTick());
+
             drive.setDefaultCommand(new DriveCommand(drive, base));
+
+            slide.reset();
         } else {
             follower = new FollowerSubsystem(new Follower(hardwareMap), start, telemetry);
         }

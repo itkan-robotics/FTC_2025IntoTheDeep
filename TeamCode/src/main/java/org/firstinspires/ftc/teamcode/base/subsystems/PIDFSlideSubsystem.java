@@ -16,6 +16,7 @@ public class PIDFSlideSubsystem extends SubsystemBase {
     private int pos = 0, pos1 = 0;
     private double target = 0;
     boolean use = true;
+    boolean resetting = false;
     PIDFController pidf;
     public PIDFSlideSubsystem(HardwareMap h, String right, String left, Direction rightD, Direction leftD, double p, double i, double d, double f, double p1, double i1, double d1, double f1) {
         this.p = p;
@@ -30,6 +31,8 @@ public class PIDFSlideSubsystem extends SubsystemBase {
         this.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         this.left.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         this.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+//        this.right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        this.left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pidf = new PIDFController(p, i, d, f);
     }
 
@@ -61,18 +64,38 @@ public class PIDFSlideSubsystem extends SubsystemBase {
     public double getF(){
         return f;
     }
+
     public void usePID(boolean yes){
         use = yes;
+    }
+    public void setResetting(boolean reset) {
+        resetting = reset;
     }
     public int getTick(){return this.left.getCurrentPosition();}
 
     @Override
     public void periodic() {
-        if (use) {
+//        right.setTargetPosition((int)target);
+//        right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        right.setPower(1);
+//        left.setTargetPosition((int)target);
+//        left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        left.setPower(1);
+//        if (use) {
+        if(!resetting) {
+            if(target == 0 ) return;
             pos = left.getCurrentPosition(); //Change from left to whatever motor has a positive encoder when lifted
             double pid = pidf.calculate(pos, this.target);
             right.setPower(pid);
             left.setPower(pid);
+       } else {
+            pos = left.getCurrentPosition(); //Change from left to whatever motor has a positive encoder when lifted
+            double pid = pidf.calculate(pos, 0);
+            right.setPower(pid);
+            left.setPower(pid);
+            if(pos < 100) {
+                resetting = false;
+            }
         }
     }
 }

@@ -270,6 +270,7 @@ public class BlueSampAutoCRI extends OpMode {
         follower.update();
         CommandScheduler.getInstance().run();
 
+        telemetry.addData("Pos", slide.getTick());
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
         telemetry.addData("Heading", follower.getPose().getHeading());
