@@ -41,58 +41,56 @@ import java.util.ArrayList;
 //+x brings it to the right
 @Autonomous(name="RedSampAutoCRI",group = ".Auton")
 public class RedSampAutoCRI extends OpMode {
-    static Pose score = new Pose(11, 19, Math.toRadians(-240));
-    static Pose finalScore = new Pose(17, 15, Math.toRadians(-240));
-    //if score direction is off then adjust toRadians param
+    static Pose score = new Pose(-11, 19, Math.toRadians(-330));
+    static Pose finalScore = new Pose(-17, 15, Math.toRadians(-330));
     static double samp1X = -11;
     static double samp2X = -20;
     static double samp3x = -22;
-
     public enum AutoPaths {
         PRELOAD(
-                new Pose(0, 0, Math.toRadians(90)),
+                new Pose(0, 0, Math.toRadians(-90)),
                 score
         ),
 
         GRAB_SAMPLE_1(
                 score,
-                new Pose(samp1X, 20, Math.toRadians(265))
+                new Pose(samp1X, 20, Math.toRadians(-265))
         ),
 
         GRAB_SAMPLE_1_FINAL(
-                new Pose(samp1X, 22, Math.toRadians(265)),
-                new Pose(samp1X, 24, Math.toRadians(265))
+                new Pose(samp1X, 22, Math.toRadians(-265)),
+                new Pose(samp1X, 24, Math.toRadians(-265))
         ),
 
         SCORE_SAMPLE_1(
-                new Pose(samp1X, 21, Math.toRadians(330)),
+                new Pose(samp1X, 21, Math.toRadians(-330)),
                 score
         ),
 
         GRAB_SAMPLE_2(
                 score,
-                new Pose(samp2X, 20, Math.toRadians(265))
+                new Pose(samp2X, 20, Math.toRadians(-265))
         ),
         GRAB_SAMPLE_2_FINAL(
-                new Pose(samp2X, 22, Math.toRadians(265)),
-                new Pose(samp2X, 24   , Math.toRadians(265))
+                new Pose(samp2X, 22, Math.toRadians(-265)),
+                new Pose(samp2X, 24   , Math.toRadians(-265))
         ),
         SCORE_SAMPLE_2(
-                new Pose(samp2X, 20, Math.toRadians(265)),
+                new Pose(samp2X, 20, Math.toRadians(-265)),
                 score
         ),
 
         GRAB_SAMPLE_3(
                 score,
-                new Pose(samp3x, 28, Math.toRadians(280))
+                new Pose(samp3x, 28, Math.toRadians(-240))
         ),
         GRAB_SAMPLE_3_FINAL(
-                new Pose(samp3x, 30, Math.toRadians(280)),
-                new Pose(samp3x, 32, Math.toRadians(280))
+                new Pose(samp3x, 30, Math.toRadians(-240)),
+                new Pose(samp3x, 32, Math.toRadians(-240))
         ),
 
         SCORE_SAMPLE_3(
-                new Pose(samp3x, 33, Math.toRadians(280)),
+                new Pose(samp3x, 33, Math.toRadians(-330)),
                 score
         ),
 
@@ -155,8 +153,11 @@ public class RedSampAutoCRI extends OpMode {
         follower = new Follower(hardwareMap);
 
         intake = new IntakeAutoSubsystem(hardwareMap, Const.intake, new ElapsedTime());
-        hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide, -0.02, 0, 0, 0.0);
-        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.REVERSE, DcMotorSimple.Direction.FORWARD, 0.2, 0, 0.000004, 0.25, 0.2, 0, 0.000004, 0.25);
+        hSlide = new PIDFSingleSlideSubsystem(hardwareMap, Const.hSlide,
+                -0.02, 0, 0.000002, 0.0);
+        slide = new PIDFSlideSubsystem(hardwareMap, Const.rSlide, Const.lSlide, DcMotorSimple.Direction.FORWARD, DcMotorSimple.Direction.REVERSE,
+                .06, 0, 5e-5, 0,
+                .06, 0, 5e-5, 0);
         pause = new WaitSubsystem();
         outtakeClaw = new ServoSubsystem(hardwareMap, Const.outtakeClaw);
         intakeClawDist = new ServoSubsystem(hardwareMap, Const.intakeDist);
@@ -169,6 +170,8 @@ public class RedSampAutoCRI extends OpMode {
         outtakeClawRot = new ServoSubsystem(hardwareMap, Const.outtakeRot);
         outtakeClawTwist = new ServoSubsystem(hardwareMap, Const.outtakeTwist);
 
+        slide.reset();
+        hSlide.reset();
         follower.setPose(AutoPaths.PRELOAD.getPoses()[0]);
         outtakeClaw.set(Const.grab);
         intakeClawRot.set(.58);
@@ -177,7 +180,8 @@ public class RedSampAutoCRI extends OpMode {
                 new ServoCommand(outtakeClawRot, .64),
                 new ServoCommand(outtakeClawDistRight, 1-0.378),
                 new ServoCommand(outtakeClawDistLeft, 0.378),
-                new AutoPIDF(slide, 1150)
+                //new AutoPIDF(slide, 1150)
+                new SetPIDFSlideArmCommand(slide, 1800)
         );
         Command releaseCommand = new SequentialCommandGroup(
                 new WaitCommand(pause, 50),
@@ -266,6 +270,7 @@ public class RedSampAutoCRI extends OpMode {
         follower.update();
         CommandScheduler.getInstance().run();
 
+        telemetry.addData("Pos", slide.getTick());
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
         telemetry.addData("Heading", follower.getPose().getHeading());
