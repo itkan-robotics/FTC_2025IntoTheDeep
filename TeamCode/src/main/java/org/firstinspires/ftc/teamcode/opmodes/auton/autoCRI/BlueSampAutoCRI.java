@@ -210,7 +210,7 @@ public class BlueSampAutoCRI extends OpMode {
                 new SlideResetCommand(hSlide, hLimit),
                 new IntakeAutoCommand(intake, 0),
                 new WaitCommand(pause, 300),
-                new ServoCommand(outtakeClawRot, 0.8),
+                new ServoCommand(outtakeClawRot, 0.7265),
                 new WaitCommand(pause, 300),
                 new ServoCommand(intakeClawRot, 0.36),
                 new WaitCommand(pause, 300),
